@@ -19,7 +19,7 @@ Digitar o seguinte comando no console do PC2:
 
 > **PC2:   ip 192.168.1.2 255.255.255.0**
 
-Feito isso, os PCs estão conectados e já podem fazer um teste de conexão através do comando ping.
+Feito isso, os PCs estão com seus respectivos IPs e já podem fazer um teste de conexão através do comando ping.
 
 Para pingar do PC1 ao PC2, utilize o comando ping com o IP do PC2.
 
