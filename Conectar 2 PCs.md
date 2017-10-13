@@ -7,6 +7,7 @@ Usaremos os dois PCs na mesma rede, esses PCs estarão ligados diretamente a um 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/133/776/original/Conectar_2Pcs2.png?1507922374)
 
 No PC 1 e 2, utilizaremos IPs de classe C com o seguinte IP, PC1: 192.168.1.1 e PC2: 192.168.1.2, ambos com mascara de rede 255.255.255.0. 
+Não há nenhuma configuração a ser feita no switch.
 
 ## Adicionando os IPs nos PCs ##
 Iniciar todos dispositivos e abrir os Consoles dos PC1 e PC2, no console do PC1 será colocado o IP: 192.168.1.1.
