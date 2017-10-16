@@ -18,7 +18,9 @@ Digitar o seguinte comando no console do PC1:
 O IP ao PC1 foi adicionado. Fazer o mesmo com PC2.
 Digitar o seguinte comando no console do PC2:
 
-> `PC2>   ip 192.168.1.2 255.255.255.0`
+ `PC2> ip 192.168.1.2 255.255.255.0`
+-------------------------------------
+
 
 Feito isso, os PCs estão conectados e já podem fazer um teste de conexão através do comando ping.
 
@@ -36,3 +38,12 @@ Para pingar do PC2 ao PC1, utilize o comando ping com o IP do PC1.
 -------------------------
 
 Feito isso, os PCs já estarão conectados!
+
+
+## ---------------------------- ##
+
+> `PC2>   ip 192.168.1.2 255.255.255.0`
+
+
+> `teste frase1 aaaaaaaaaaaaaa`
+
