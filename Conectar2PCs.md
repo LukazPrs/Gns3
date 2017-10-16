@@ -12,12 +12,12 @@ No PC 1 e 2, utilizaremos IPs de classe C com o seguinte IP, PC1: 192.168.1.1 e 
 Iniciar todos dispositivos e abrir os Consoles dos PC1 e PC2, no console do PC1 será colocado o IP: 192.168.1.1.
 Digitar o seguinte comando no console do PC1:
 
-    **PC1>  ip 192.168.1.1 255.255.255.0**
+>  `PC1>  ip 192.168.1.1 255.255.255.0`
 
 O IP ao PC1 foi adicionado. Fazer o mesmo com PC2.
 Digitar o seguinte comando no console do PC2:
 
-> `PC2>   ip 192.168.1.2 255.255.255.0`
+`PC2>   ip 192.168.1.2 255.255.255.0`
 
 Feito isso, os PCs estão conectados e já podem fazer um teste de conexão através do comando ping.
 
@@ -30,5 +30,5 @@ Para pingar do PC2 ao PC1, utilize o comando ping com o IP do PC1.
 >  **PC2>  ping 192.168.1.1**
 > 
 
-    > Feito isso, os PCs já estarão conectados!*
+     Feito isso, os PCs já estarão conectados!
 
