@@ -28,7 +28,7 @@ Para pingar do PC1 ao PC2, utilize o comando ping com o IP do PC2.
 
     
 
- `PC1> ping 192.168.1.1`
+ `PC1> ping 192.168.1.2`
 -------------------------
 
 
@@ -42,8 +42,9 @@ Feito isso, os PCs já estarão conectados!
 
 ## ---------------------------- ##
 
-> `PC2>   ip 192.168.1.2 255.255.255.0`
+    
 
+> PC2>   ip 192.168.1.2 255.255.255.0
 
-> `teste frase1 aaaaaaaaaaaaaa`
+    ,mkjjjjjjjjjj,m lkoijmolk
 
