@@ -53,3 +53,6 @@ A rede 1 consiguirá se comunicar com a rede 2, pois o roteador possui ambas int
 **Teste de ping do PC2 ao PC1.**
 
 ### `PC2> ping 192.168.1.10`
+
+
+Download da ISO usada: [Roteador c3725](http://www.mediafire.com/file/f57mccrqfdpeiin/c3725-adventerprisek9-mz124-15.bin)
