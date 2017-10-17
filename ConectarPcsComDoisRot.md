@@ -44,6 +44,7 @@ Os IPs foram adicionados e estas interfaces são visiveis ao PC1.
     R2# exit
 
 Os IPs foram adicionados e estas interfaces são visíveis ao PC2, porém do PC2 não consegue ter acesso ao PC1 e vice-versa, para que o PC2 possa acessar o PC1 é necessário fazer um roteamento em R1 e R2 para que R1 possa acessar a rede 3.0 que esta distante, e o R2 ter acesso a rede 1.0.
+
 Em R1 temos que fazer o roteamento até a rede 3.0 que está distante, para isso usamos o seguinte comando no roteador:
 ip route [ip da rede de acesso] [mascara] [ip do proximo salto]
 
