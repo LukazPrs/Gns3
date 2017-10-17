@@ -8,11 +8,11 @@ Como mostrado na figura, usaremos o IP 192.168.1.10 para o PC1 e 192.168.3.20. V
 O Gateway dos PCs deve ser o IP da interface conectada como mostra na figura acima.
 **Adicionando IP ao PC1:**
 
-> `PC1>  192.168.1.10 255.255.255.0 192.168.1.1`
+    PC1>  192.168.1.10 255.255.255.0 192.168.1.1
 
 **Adicionando IP ao PC2:**
 
-> `PC1>  192.168.3.20 255.255.255.0 192.168.3.1`
+    PC1>  192.168.3.20 255.255.255.0 192.168.3.1
 
 É necessário configurar a interface dos roteadores, cada interface terá seu IP, sendo estas de redes diferentes.
 Abrir o console do R1 e adicionar os IPs nas interfaces conectadas, neste caso interface fastEthernet 0/0 e 0/1.
@@ -21,13 +21,13 @@ Abrir o console do R1 e adicionar os IPs nas interfaces conectadas, neste caso i
 
     R1# conf t
     R1# int f0/0
-    R1#ip add 192.168.1.1 255.255.255.0
-    R1#exit
+    R1# ip add 192.168.1.1 255.255.255.0
+    R1# exit
 
     R1# conf t
     R1# int f0/1
-    R1#ip add 192.168.2.1 255.255.255.0
-    R1#exit
+    R1# ip add 192.168.2.1 255.255.255.0
+    R1# exit
 
 Os IPs foram adicionados e estas interfaces são visiveis ao PC1.
 
