@@ -8,9 +8,9 @@ Primeiramente adicionaremos os IPs nos PC1 e PC2.
 
 **CONFIGURAÇÃO DO PC1:**
 
-*IP: 192.168.1.10*
-*MASCARA: 255.255.255.0*
-*GATEWAY: 192.168.1.1*
+> *IP: 192.168.1.10*
+> *MASCARA: 255.255.255.0*
+> *GATEWAY: 192.168.1.1*
 
 Abra o console do PC1 e coloque os dados acima.
 
@@ -18,9 +18,9 @@ Abra o console do PC1 e coloque os dados acima.
 
 **CONFIGURAÇÃO DO PC2:**
 
-*IP: 192.168.2.20*
-*MASCARA: 255.255.255.0*
-*GATEWAY: 192.168.2.1*
+> *IP: 192.168.2.20*
+> *MASCARA: 255.255.255.0*
+> *GATEWAY: 192.168.2.1*
 
 Abra o console do PC2 e coloque os dados acima.
 
@@ -53,4 +53,3 @@ A rede 1 consiguirá se comunicar com a rede 2, pois o roteador possui ambas int
 **Teste de ping do PC2 ao PC1.**
 
 ### `PC2> ping 192.168.1.10`
-
