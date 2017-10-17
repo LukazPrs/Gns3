@@ -8,8 +8,8 @@ Como mostrado na figura, usaremos o IP 192.168.1.10 para o PC1 e 192.168.3.20. V
 O Gateway dos PCs deve ser o IP da interface conectada como mostra na figura acima.
 **Adicionando IP ao PC1:**
 
-    PC1>  192.168.1.10 255.255.255.0 192.168.1.1
-    PC1>  192.168.1.10 255.255.255.0 192.168.1.1
+    PC1> #1 192.168.1.10 255.255.255.0 192.168.1.1
+    PC1> @1 192.168.1.10 255.255.255.0 192.168.1.1
     PC1>  192.168.1.10 255.255.255.0 192.168.1.1
     
 
