@@ -5,19 +5,21 @@ Para fazer a comunicação de dois PCs em redes diferentes, usaremos um ROTEADOR
 ![enter image description here](https://uploaddeimagens.com.br/images/001/137/061/original/Gns2.png?1508179251)
 
 Primeiramente adicionaremos os IPs nos PC1 e PC2.
-**Configuração do PC1:**
+
+**CONFIGURAÇÃO DO PC1:**  :fa-check-square-o:
 *IP: 192.168.1.10*
 *MASCARA: 255.255.255.0*
 *GATEWAY: 192.168.1.1*
+
 Abra o console do PC1 e coloque os dados acima.
 
 > `PC1>  192.168.1.10 255.255.255.0 192.168.1.1`
 
---
-**Configuração do PC2:**
+**CONFIGURAÇÃO DO PC2:** :fa-check-square-o:
 *IP: 192.168.2.20*
 *MASCARA: 255.255.255.0*
 *GATEWAY: 192.168.2.1*
+
 Abra o console do PC2 e coloque os dados acima.
 
 > `PC2>  192.168.2.20 255.255.255.0 192.168.2.1`
@@ -33,12 +35,14 @@ Como o roteador esta conectado a dois PCs diferentes, cada computador terá sua 
     no shutdown
     exit
     
-    interface interface fastEthernet 0/1
+    interfa fastEthernet 0/1
     ip add 192.168.2.1 255.255.255.0
     no shutdown
     exit (2x)
 
 Feito isso, as redes 1 e 2 poderão se comunicar normalmente.
+A rede 1 consiguirá se comunicar com a rede 2, pois o roteador possui ambas interfaces configuradas.
+
 **Teste de ping do PC1 ao PC2.**
 
 > `PC1> ping 192.168.2.20`
