@@ -38,7 +38,7 @@ Como o roteador esta conectado a dois PCs diferentes, cada computador terá sua 
     no shutdown
     exit
     
-    interfa fastEthernet 0/1
+    interface fastEthernet 0/1
     ip add 192.168.2.1 255.255.255.0
     no shutdown
     exit (2x)
