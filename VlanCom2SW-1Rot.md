@@ -1,5 +1,7 @@
 ###**Conectar 2 Vlans diferentes**
 
+Usaremos a topologia abaixo para conectar 2 Vlans distintas usando 2 switch e 1 roteador. Adicionaremos dois PCs, um em cada switch.
+
 ![enter image description here](https://uploaddeimagens.com.br/images/001/139/510/original/vLAN01.png?1508336657)
 
 Primeiro passo, adicionar IP nos PC1 e PC2. No PC1 usaremos o IP 192.168.1.10 com gateway 192.168.1.1. No PC2 usaremos o IP 192.168.2.10 e Gateway 192.168.2.1.
@@ -35,7 +37,6 @@ Configurar a interface do switch1 para o PC1 com a Vlan 10 e do switch para o sw
     switch1# int f1/1
     switch1# switchport mode trunk
     switch1# no sh
-    switch1# 
     switch1#  CTRL+Z
 
 **Faça o mesmo com a interface para o R1:**
@@ -44,7 +45,7 @@ Configurar a interface do switch1 para o PC1 com a Vlan 10 e do switch para o sw
     switch1# int f1/0
     switch1# switchport mode trunk
     switch1# no sh
-    switch1#  CTRL+Z
+    switch1# CTRL+Z
 
 Finalizado o switch1, configurar o switch2 da mesma maneira.
 
@@ -79,7 +80,7 @@ Finalizado o switch2.
 
 
 ----------
-
+ 
 
 No roteador1(R1) será necessário configurar a porta TRUNK na interface com o switch1 e colocar IP nas interface da Vlan 10 e Vlan20.
 
