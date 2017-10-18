@@ -54,7 +54,7 @@ Finalizado o switch1, configurar o switch2 da mesma maneira.
     switch1# vlan database
     switch1# vlan 10
     switch1# vlan 20
-    exit
+    switch1# exit
 
 
 ----------
@@ -66,7 +66,7 @@ Finalizado o switch1, configurar o switch2 da mesma maneira.
     switch2# int f1/0
     switch2# switchport mode access
     switch2# switchport access vlan 20
-    switch2#  CTRL+Z
+    switch2# CTRL+Z
 
 **Na interface com o switch1, faça o modo trunk:**
 
@@ -74,7 +74,7 @@ Finalizado o switch1, configurar o switch2 da mesma maneira.
     switch2# int f1/1
     switch2# switchport mode trunk
     switch2# no sh
-    switch2#  CTRL+Z
+    switch2# CTRL+Z
 
 Finalizado o switch2.
 
