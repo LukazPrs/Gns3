@@ -51,25 +51,7 @@ Configurar a interface do switch1 para o PC1 com a Vlan 10, PC3 com a Vlan 20, s
     switch1#  CTRL+Z
 
 
-
-**Adicionando a interface do switch com PC2 na Vlan20. No switch2 digite:**
-
-    switch2# conf t
-    switch2# int f1/5
-    switch2# switchport mode access
-    switch2# switchport access vlan 20
-    switch2#  CTRL+Z
-
-
-**Adicionando a interface do switch com PC4 na Vlan10. No switch2 digite:**
-
-    switch2# conf t
-    switch2# int f1/5
-    switch2# switchport mode access
-    switch2# switchport access vlan 10
-    switch2#  CTRL+Z
-
-
+----------
 **Na interface com o switch2, faça o modo trunk:**
 
     switch1# conf t
@@ -96,28 +78,24 @@ Finalizado o switch1, configurar o switch2 da mesma maneira.
     switch1# exit
 
 
-----------
 
-
-**Adicionando a interface do switch com PC2 na Vlan20, No switch2 digite:**
+**Adicionando a interface do switch com PC2 na Vlan20. No switch2 digite:**
 
     switch2# conf t
     switch2# int f1/0
     switch2# switchport mode access
     switch2# switchport access vlan 20
-    switch2# CTRL+Z
+    switch2#  CTRL+Z
 
-**Na interface com o switch1, faça o modo trunk:**
+
+**Adicionando a interface do switch com PC4 na Vlan10. No switch2 digite:**
 
     switch2# conf t
-    switch2# int f1/1
-    switch2# switchport mode trunk
-    switch2# no sh
-    switch2# CTRL+Z
-
-Finalizado o switch2.
-
-
+    switch2# int f1/5
+    switch2# switchport mode access
+    switch2# switchport access vlan 10
+    switch2#  CTRL+Z
+    
 ----------
  
 
