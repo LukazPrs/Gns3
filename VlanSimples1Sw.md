@@ -3,9 +3,17 @@
 Iremos conectar 2 vlans utilizando 1 switch, os PCs de uma Vlan consiguirá se comunicar com outros PCs da mesma Vlan atravéz do switch, para que os PCs de uma Vlan possa se comunicar com outros de Vlans distintas, usaremos um roteador para as Vlans possam se comunicar.
 Usaremos a topologia abaixo.
 
+
+----------
+
+
 ![enter image description here](https://uploaddeimagens.com.br/images/001/141/226/original/VlanSimples.png?1508436659) 
 
-Começaremos adicionando os IPs nos 4 PCs.
+
+----------
+
+
+**Começaremos adicionando os IPs nos 4 PCs.**
 
 No console do PC1, digite:
 
@@ -69,25 +77,29 @@ Feito isso, os PCs da mesma Vlan ja conseguem se comunicar, para se comunicar ag
     switch1# int f1/1
     switch1# switchport mode trunk
     switch1# CTRL + Z
-Configurar as Interfaces das Vlan em R1, digite:
-R1# conf t
-R1# int f0/0
-R1# no sh
-R1# exit
+    
+As interfaces que serão adicionada nas Vlan pelo R1, serão com os IPs de Gateways dos PCs, seja da rede 1(PC1 e PC3) com a Vlan10, e também com a rede 2(PC2 e PC4) com a Vlan20.
 
-R1# int f0/0.10 
-R1# encapsulation dot1q 10
-R1# ip add 192.168.1.1 255.255.255.0
-R1# exit
+**Configurar as Interfaces das Vlan em R1, digite:**
 
-R1# int f0/0.20
-R1# encapsulation dot1q 20
-R1# ip add 192.168.2.1 255.255.255.0
-R1# exit 
-R1# ip routing
-R1# exit
+    R1# conf t
+    R1# int f0/0
+    R1# no sh
+    R1# exit
+
+    R1# int f0/0.10 
+    R1# encapsulation dot1q 10
+    R1# ip add 192.168.1.1 255.255.255.0
+    R1# exit
+
+    R1# int f0/0.20
+    R1# encapsulation dot1q 20
+    R1# ip add 192.168.2.1 255.255.255.0
+    R1# exit 
+    R1# ip routing
+    R1# exit
 
 Feito isso, os PCs conseguem se comunicar com a Vlan 10 e Vlan 20. Faça um teste de ping com PCs da mesma Vlan e também em Vlans diferentes.
 
-**Download ISOs dos switch e roteador:** [Roteador c3725](http://www.mediafire.com/file/f57mccrqfdpeiin/c3725-adventerprisek9-mz124-15.bin) | [Switch c3745](http://www.mediafire.com/file/p9m86m044yncsmm/c3745-advipservicesk9-mz.124-25d.bin)
-[Ambos podem ser configurados como Roteador e Switch]
+Download ISOs dos switch e roteador: [Roteador c3725](http://www.mediafire.com/file/f57mccrqfdpeiin/c3725-adventerprisek9-mz124-15.bin) || [Switch c3725](http://www.mediafire.com/file/p9m86m044yncsmm/c3745-advipservicesk9-mz.124-25d.bin)
+[Ambos podem simular roteador e também switch]
