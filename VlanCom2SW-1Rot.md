@@ -74,40 +74,41 @@ Criando as Vlan 10 e 20 no switch2.
     
 **Adicionando o PC2 na Vlan20 e PC4 na Vlan10.**
 
-switch2# conf t
-switch2# int f1/0
-switch2# switchport mode access
-switch2# switchport access vlan 20
-switch2#  exit
+    switch2# conf t
+    switch2# int f1/0
+    switch2# switchport mode access
+    switch2# switchport access vlan 20
+    switch2#  exit
 
-switch2# int f1/5
-switch2# switchport mode access
-switch2# switchport access vlan 20
-switch2# exit
+    switch2# int f1/5
+    switch2# switchport mode access
+    switch2# switchport access vlan 20
+    switch2# exit
 
-switch2# int f1/1
-switch2# switchport mode trunk
-switch2# CTRL + Z
+    switch2# int f1/1
+    switch2# switchport mode trunk
+    switch2# CTRL + Z
 
 Finalizado o switch2, falta somente configurar as interfaces da Vlan10 e 20 em R1. Usaremos os IPs dos gateways das rede 1 e rede 2.
 
 **Em R1:**
-R1# conf t
-R1# int f0/0
-R1#  no sh
-R1# exit
 
-R1# int f0/0.10
-R1# encapsulation dot1q 10
-R1# ip add 192.168.1.1255.255.255.0
-R1# exit
+    R1# conf t
+    R1# int f0/0
+    R1#  no sh
+    R1# exit
 
-R1# int f0/0.20
-R1# encapsulation dot1q 10
-R1# ip add 192.168.2.1255.255.255.0
-R1# exit
-R1# ip routing
-R1# exit
+    R1# int f0/0.10
+    R1# encapsulation dot1q 10
+    R1# ip add 192.168.1.1255.255.255.0
+    R1# exit
+
+    R1# int f0/0.20
+    R1# encapsulation dot1q 10
+    R1# ip add 192.168.2.1255.255.255.0
+    R1# exit
+    R1# ip routing
+    R1# exit
 
 Feito isso, os PCs de uma Vlan ja conseguiraõ se comunicar com outros PCs de outra Vlan.
 
