@@ -67,10 +67,10 @@ Finalizado o switch1, configurar o switch2 igualmente.
 Criando as Vlan 10 e 20 no switch2.
 **No switch2, digite:**
 
-    switch1# vlan database
-    switch1# vlan 10
-    switch1# vlan 20
-    switch1# exit
+    switch2# vlan database
+    switch2# vlan 10
+    switch2# vlan 20
+    switch2# exit
     
 **Adicionando o PC2 na Vlan20 e PC4 na Vlan10.**
 
