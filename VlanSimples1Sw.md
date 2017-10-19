@@ -32,4 +32,62 @@ Com os IPs adiciodos, criamos as Vlans 10 e Vlan 20 e colocaremos os PCs em suas
 PC1 e PC3 na Vlan10, PC2 e PC4 na Vlan 20.
 
 **Adicionando os PC1 e PC3 na Vlan10. No switch1, digite:**
-switch1# 
+
+    switch1# conf t
+    switch1# int f1/2
+    switch1# switchport mode access
+    switch1# switchport access vlan 10
+    switch1# no sh
+    switch1# exit
+    
+    switch1#int f1/4 
+    switch1# switchport mode access
+    switch1# switchport access vlan 10
+    switch1# no sh
+    switch1# exit
+
+
+**Adicionando os PC2 e PC4 na Vlan10. No switch1, digite:**
+
+    switch1# conf t
+    switch1# int f1/3
+    switch1# switchport mode access
+    switch1# switchport access vlan 20
+    switch1# no sh
+    switch1# exit
+    
+    switch1#int f1/5
+    switch1# switchport mode access
+    switch1# switchport access vlan 20
+    switch1# no sh
+    switch1# exit (2x)
+Feito isso, os PCs da mesma Vlan ja conseguem se comunicar, para se comunicar agora com outras Vlan devemos configurar a interface do switch1 como TRUNK e configurar as interfaces das Vlan 10 e 20 no R1.
+
+**Colocando a interface com R1 como TRUNK, no switch1, digite:**
+
+    switch1# conf t
+    switch1# int f1/1
+    switch1# switchport mode trunk
+    switch1# CTRL + Z
+Configurar as Interfaces das Vlan em R1, digite:
+R1# conf t
+R1# int f0/0
+R1# no sh
+R1# exit
+
+R1# int f0/0.10 
+R1# encapsulation dot1q 10
+R1# ip add 192.168.1.1 255.255.255.0
+R1# exit
+
+R1# int f0/0.20
+R1# encapsulation dot1q 20
+R1# ip add 192.168.2.1 255.255.255.0
+R1# exit 
+R1# ip routing
+R1# exit
+
+Feito isso, os PCs conseguem se comunicar com a Vlan 10 e Vlan 20. Faça um teste de ping com PCs da mesma Vlan e também em Vlans diferentes.
+
+**Download ISOs dos switch e roteador:** [Roteador c3725](http://www.mediafire.com/file/f57mccrqfdpeiin/c3725-adventerprisek9-mz124-15.bin) | [Switch c3745](http://www.mediafire.com/file/p9m86m044yncsmm/c3745-advipservicesk9-mz.124-25d.bin)
+[Ambos podem ser configurados como Roteador e Switch]
