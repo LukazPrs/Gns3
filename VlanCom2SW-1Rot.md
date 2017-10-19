@@ -72,10 +72,18 @@ Finalizado o switch1, configurar o switch2 da mesma maneira.
 
 **Crie as Vlan 10 e 20 no switch2:**
 
-    switch1# vlan database
-    switch1# vlan 10
-    switch1# vlan 20
-    switch1# exit
+    switch2# vlan database
+    switch2# vlan 10
+    switch2# vlan 20
+    switch2# exit
+
+**Na interface com o switch1, faça o modo trunk:**
+
+    switch2# conf t
+    switch2# int f1/1
+    switch2# switchport mode trunk
+    switch2# no sh
+    switch2# CTRL+Z
 
 
 
@@ -85,7 +93,7 @@ Finalizado o switch1, configurar o switch2 da mesma maneira.
     switch2# int f1/0
     switch2# switchport mode access
     switch2# switchport access vlan 20
-    switch2#  CTRL+Z
+    switch2# CTRL+Z
 
 
 **Adicionando a interface do switch com PC4 na Vlan10. No switch2 digite:**
@@ -94,7 +102,7 @@ Finalizado o switch1, configurar o switch2 da mesma maneira.
     switch2# int f1/5
     switch2# switchport mode access
     switch2# switchport access vlan 10
-    switch2#  CTRL+Z
+    switch2# CTRL+Z
     
 ----------
  
@@ -123,7 +131,7 @@ No roteador1(R1) será necessário configurar a porta TRUNK na interface com o s
     R1# ip routing
     R1# exit
 
-Agora o PC1 como se comunicar com o PC2 que está em uma Vlan diferente.
+Agora o PC1 pode se comunicar com o PC2 que está em uma Vlan diferente, também consegue se comunicar com outro PC na mesma rede.
 Faça o ping do PC1 para o PC2 e vice-versa.
 
 **Download ISOs dos switch e roteador:** [Roteador c3725](http://www.mediafire.com/file/f57mccrqfdpeiin/c3725-adventerprisek9-mz124-15.bin) | [Switch c3745](http://www.mediafire.com/file/p9m86m044yncsmm/c3745-advipservicesk9-mz.124-25d.bin)
