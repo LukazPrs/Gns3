@@ -49,5 +49,39 @@ Criando as Vlan10 e Vlan20. No switch1, digite:
     switch1# exit
 
 
-Configurar o Servidor DHCP para atribuir os IPs para os PCs nas Vlans, cada vlan como sua faixa de IP.
+Configurar o Servidor DHCP para atribuir os IPs para os PCs nas Vlans, cada vlan como sua faixa de IP. Será criado duas pools para ser distribuidas IPs para cada Vlan.
+**Atribuir IP nas vlans. No servidor dhcp, digite:**
 
+    dhcp# conf t
+    dhcp# int f0/0
+    dhcp# no sh
+    dhcp# exit
+
+    dhcp#int f0/0.10 
+    dhcp# encapsulation dot1q 10
+    dhcp# ip add 10.10.10.1 255.255.255.0
+    dhcp# exit
+
+    dhcp#int f0/0.20 
+    dhcp# encapsulation dot1q 20
+    dhcp# ip add 20.20.20.1 255.255.255.0
+    dhcp# exit  (2x)
+
+Criar as pools de distribuição de IPs para os PCs nas Vlans.
+
+    dhcp# cont f
+    dhcp# ip dhcp pool Vlan-10
+    dhcp# default-router 10.10.10.1
+    dhcp# network 10.10.10.0 255.255.255.0
+    dhcp# exit
+
+    dhcp# ip dhcp pool Vlan-20
+    dhcp# default-router 20.20.20.1
+    dhcp# network 20.20.20.0 255.255.255.0
+    dhcp# exit (2x)
+
+ Depois de configurado, para adicionar os IPs nos PCs, abra o console de cada PC e digite o comando:
+
+     ip dhcp
+
+ Será buscado o servidor dhcp e adiquirido o IP e mascara configurada, os PCs da Vlan 10 pegarão IPs do tipo 10.10.10.0 e Vlan 20 do tipo 20.20.20.0.
