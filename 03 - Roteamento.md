@@ -57,7 +57,7 @@ sintaxe: R1# ip route [ip da rede de acesso] [mascara] [ip do proximo salto]
 Em R2 temos que fazer o roteamento até a rede 1.0 que está distante, digitamos no console de R2:
 
     R2# conf t
-    R2# ip route 192.168.3.0 255.255.255.0 192.168.2.2
+    R2# ip route 192.168.1.0 255.255.255.0 192.168.2.1
     R2# exit
 
 Feito isso, toda rede terá acesso a todos dispositivos.
