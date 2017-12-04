@@ -8,6 +8,9 @@ Para o funcionamento deste tutorial, será necessário a instalação do program
 Ao baixar o Virtual Box(ou outra VM) é necessário criar uma nova maquina virtual com o sistema linux ubuntu, depois abrir o Gns3 e abrir as *Preferencias* e ir na aba **Virtual Box** e clicar em **Novo**, sera aberto uma janela com os sistemas operacionais que foram adicionados ao Virtual Box, escolha a maquina Ubuntu e finalize com Aplicar. A maquina virtual estará disponível em seus dispositivos no Gns3, restando somente montar a topologia seguindo a nossa imagem acima.
 Ao iniciar a topologia no Gns3, o virtual box iniciará o sistema operacional Ubuntu junto com os PCs virtuais.
 
+
+![Adicionando Iso no Gns3](https://uploaddeimagens.com.br/images/001/198/604/original/menuVM.png?1512413307)
+
 Ao abrir a máquina virtual ubuntu, siga os passos do link do tutorial abaixo para configurar dentro do ubuntu um servidor dhcp simples, que distribuirá IPs para os VPCS do gns3.   [**LINK DO TUTORIAL**](http://www2.unemat.br/robinho/LABREDES/material/DhcpServer.txt)
 
 
