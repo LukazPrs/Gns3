@@ -1,1 +1,6 @@
 
+**Conexão entre dois PCs(VM UBUNTU) em redes diferentes.**
+
+Usaremos a topologia abaixo para montar uma conexão VPN entre dois PCs usando o OpenVPN.
+![](https://uploaddeimagens.com.br/images/001/250/977/original/VPN_TOPOLOGIAt.png?1516038467)
+
