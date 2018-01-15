@@ -68,7 +68,7 @@ Feito isso, a Lan 1 consiguirá acessar a Lan 2 e vice versa.
 	
 	Linux_ubu-2 > sudo apt-get install openvpn
 
-**Criando um Túnel Simples entre os dois PCs.**
+- **Criando um Túnel Simples entre os dois PCs.**
 
 **No servidor(Linux_ubu-1):**
 
@@ -81,3 +81,30 @@ Feito isso, a Lan 1 consiguirá acessar a Lan 2 e vice versa.
 **Faça um teste pingando do cliente no tunel do servidor(10.0.0.1)**
 
 	Linux_ubu-2 > ping 10.0.0.1
+
+- **Criando um Túnel com TAP.**
+
+**No servidor(Linux_ubu-1):**
+
+	Linux_ubu-1 > openvpn --dev tap --ifconfig 10.0.0.1 255.0.0.0
+
+**No cliente(Linux_ubu-2):**
+	
+		Linux_ubu-2 > openvpn --remote 192.168.1.10 --dev tap --ifconfig 10.0.0.2 255.0.0.0
+
+*Para mudar a porta padrao usamos **--port** seguido da porta.**(FEITO NO CLIENTE E SERVIDOR)***
+
+Linux_ubu-1 & 2> openvpn --port 315 --dev tap --ifconfig 10.0.0.1 255.0.0.0
+
+*Podemos compactar o trafego com o **--comp-lzo yes**.* 
+
+Linux_ubu-1 & 2 > openvpn --comp-lzo yes --dev tap --ifconfig 10.0.0.1 255.0.0.0
+
+
+***Qual é a diferença entre TUN driver e TAP
+driver ?***
+
+*TUN trabalha com pacotes IP. TAP trabalha como frames (quadros)
+Ethernet.*
+
+
