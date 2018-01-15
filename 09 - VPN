@@ -61,8 +61,22 @@ Baixando o OpenVPN
 
 Linux_ubu-1 > sudo apt-get install openvpn
 
-**Baixar o OpenVPN no Linux_ubuntu-2(cliente.**
+**Baixar o OpenVPN no Linux_ubuntu-2(cliente).**
 
 Baixando o OpenVPN
 
 Linux_ubu-2 > sudo apt-get install openvpn
+
+**Criando um Túnel Simples entre os dois PCs.**
+
+**No servidor(Linux_ubu-1):**
+
+Linux_ubu-1 > openvpn --dev tun --ifconfig 10.0.0.1 10.0.0.2
+
+**No cliente(Linux_ubu-2):**
+
+Linux_ubu-2 > openvpn --remote 192.168.1.1 --dev tun --ifconfig 10.0.0.2 10.0.0.1
+
+**Faça um teste pingando do cliente no tunel do servidor(10.0.0.1)**
+
+Linux_ubu-2 > ping 10.0.0.1
