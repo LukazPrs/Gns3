@@ -51,3 +51,16 @@ Adicionaremos nossas Zonas de Dns.
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/253/775/original/zonas.png?1516215186)
 Foi criado uma zona direta e uma reversa como mostra na imagem acima.([Vídeo completo sobre o passa a passo](https://www.youtube.com/watch?v=0SSSfyy7bO4))
+
+Fazer uma copia para as duas zonas criadas, essa copia será de um arquivo já existente e pré-configurado.
+
+	#> sudo cp db.local db.risc.net
+	#> sudo cp db.127 db.192
+
+Temos que editar os dois arquivos, começando pelo **db.risc.net**.
+
+	#> sudo nano db.risc.net
+![enter image description here](https://uploaddeimagens.com.br/images/001/253/841/original/zonaDireta.png?1516217722)
+[\[Siga o passo a passo aqui\]](https://www.youtube.com/watch?v=xZcf7TaxKHU)
+Editando o arquivo de zona reversa.
+	#> sudo nano db.192
