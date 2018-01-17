@@ -64,3 +64,4 @@ Temos que editar os dois arquivos, começando pelo **db.risc.net**.
 [\[Siga o passo a passo aqui\]](https://www.youtube.com/watch?v=xZcf7TaxKHU)
 Editando o arquivo de zona reversa.
 	#> sudo nano db.192
+![enter image description here](https://uploaddeimagens.com.br/images/001/253/857/original/zonaReversa.png?1516218271)
