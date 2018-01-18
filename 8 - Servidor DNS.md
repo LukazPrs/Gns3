@@ -2,19 +2,12 @@
 
 Usaremos a topologia abaixo para criar um domínio para que dois PCs consigam se comunicar por este domínio e seu nome e não usando o endereço IP.
 ![enter image description here](https://uploaddeimagens.com.br/images/001/253/597/original/DNS.png?1516209228)
-Podemos usar maquinas virtual como PCs(como na figura), ou colocar VPCS do Gns3. Na figura acima usamos duas Máquinas Virtual com sistema Ubuntu e o servidor DNS com as mesmas especificações.
+Usaremos duas máquinas virtuais para demonstrar este servidor Dns. Na figura acima usamos duas Máquinas Virtual com sistema Ubuntu e o servidor DNS com as mesmas especificações.
 
-**Nos PCs configuraremos somente o endereço IP.**
+Nas Maquinas Virtuais:
 
-    Em VPCS:
-	
-	PC1 > ip 192.168.1.10 255.255.255.0
-	PC2 > ip 192.168.1.30 255.255.255.0
-
-    Em Maquinas Virtuais:
-
-	PC1 > sudo ifconfig enp0s3 192.168.1.10
-	PC2 > sudo ifconfig enp0s3 192.168.1.30
+	PC1 #> sudo ifconfig enp0s3 192.168.1.10
+	PC2 #> sudo ifconfig enp0s3 192.168.1.30
 
 
 Configurando o servidor DNS.
@@ -65,3 +58,10 @@ Temos que editar os dois arquivos, começando pelo **db.risc.net**.
 Editando o arquivo de zona reversa.
 	#> sudo nano db.192
 ![enter image description here](https://uploaddeimagens.com.br/images/001/253/857/original/zonaReversa.png?1516218271)
+Feito isso reinicie a maquina virtual.
+
+#> sudo reboot
+
+Testar se comunicar do PC1 ao PC2 usando domínio.
+PC1 > ping vm3.risc.net
+
