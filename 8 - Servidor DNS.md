@@ -63,5 +63,10 @@ Feito isso reinicie a maquina virtual.
 #> sudo reboot
 
 Testar se comunicar do PC1 ao PC2 usando domínio.
-PC1 > ping vm3.risc.net
+	
+	PC1 > ping vm3.risc.net
 
+Faça o processo inverso.
+	
+	PC2 > ping vm2.risc.net
+Ao tentar se comunicar com outro PC pelo domínio, a requisição irá para o servidor DNS e o servidor traduzira o domínio e retornará o IP do domínio.
