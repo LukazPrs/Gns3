@@ -73,6 +73,18 @@ Feito isso reinicie a maquina virtual.
 
 	sudo reboot
 
+
+----------
+
+
+Precisamos configurar o PC1 e PC2 para usar nosso servidor como DNS.
+No PC1 e no PC2, entre no arquivo resolv e coloque o IP do servidor como DNS.
+
+	#> sudo nano /etc/resolv.conf
+
+
+![enter image description here](https://uploaddeimagens.com.br/images/001/256/744/original/resolv.png?1516393787)
+
 Testar se comunicar do PC1 ao PC2 usando domínio.
 	
 	PC1 > ping vm3.risc.net
