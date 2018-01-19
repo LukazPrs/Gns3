@@ -1,4 +1,4 @@
-**Conexão entre dois PCs(VM UBUNTU) em redes diferentes.**
+**Conexão VPN entre dois PCs(VM UBUNTU) em redes diferentes.**
 
 Usaremos a topologia abaixo para montar uma conexão VPN entre dois PCs usando o OpenVPN.
 ![](https://uploaddeimagens.com.br/images/001/250/977/original/VPN_TOPOLOGIAt.png?1516038467)
@@ -94,11 +94,11 @@ Feito isso, a Lan 1 consiguirá acessar a Lan 2 e vice versa.
 
 *Para mudar a porta padrao usamos **--port** seguido da porta.**(FEITO NO CLIENTE E SERVIDOR)***
 
-Linux_ubu-1 & 2> openvpn --port 315 --dev tap --ifconfig 10.0.0.1 255.0.0.0
+	Linux_ubu-1 & 2> openvpn --port 315 --dev tap --ifconfig 10.0.0.1 255.0.0.0
 
 *Podemos compactar o trafego com o **--comp-lzo yes**.* 
 
-Linux_ubu-1 & 2 > openvpn --comp-lzo yes --dev tap --ifconfig 10.0.0.1 255.0.0.0
+	Linux_ubu-1 & 2 > openvpn --comp-lzo yes --dev tap --ifconfig 10.0.0.1 255.0.0.0
 
 
 ***Qual é a diferença entre TUN driver e TAP
