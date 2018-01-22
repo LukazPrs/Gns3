@@ -1,4 +1,4 @@
-**Conexão VPN entre dois PCs(VM UBUNTU) em redes diferentes.**
+**Conexão entre dois PCs(VM UBUNTU) em redes diferentes.**
 
 Usaremos a topologia abaixo para montar uma conexão VPN entre dois PCs usando o OpenVPN.
 ![](https://uploaddeimagens.com.br/images/001/250/977/original/VPN_TOPOLOGIAt.png?1516038467)
@@ -107,4 +107,5 @@ driver ?***
 *TUN trabalha com pacotes IP. TAP trabalha como frames (quadros)
 Ethernet.*
 
+Esses são exemplos simples de como criar um túnel ponta a ponta entre dois PCs simulando uma rede real, esses mesmos passos serias repetidos em um ambiente real para a construção de uma VPN básica.
 
