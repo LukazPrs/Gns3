@@ -72,11 +72,11 @@ Feito isso, a Lan 1 consiguirá acessar a Lan 2 e vice versa.
 
 **No servidor(Linux_ubu-1):**
 
-	Linux_ubu-1 > openvpn --dev tun --ifconfig 10.0.0.1 10.0.0.2
+	Linux_ubu-1 > sudo openvpn --dev tun --ifconfig 10.0.0.1 10.0.0.2
 
 **No cliente(Linux_ubu-2):**
 	
-	Linux_ubu-2 > openvpn --remote 192.168.1.10 --dev tun --ifconfig 10.0.0.2 10.0.0.1
+	Linux_ubu-2 > sudo openvpn --remote 192.168.1.10 --dev tun --ifconfig 10.0.0.2 10.0.0.1
 
 **Faça um teste pingando do cliente no tunel do servidor(10.0.0.1)**
 
@@ -86,19 +86,19 @@ Feito isso, a Lan 1 consiguirá acessar a Lan 2 e vice versa.
 
 **No servidor(Linux_ubu-1):**
 
-	Linux_ubu-1 > openvpn --dev tap --ifconfig 10.0.0.1 255.0.0.0
+	Linux_ubu-1 > sudo openvpn --dev tap --ifconfig 10.0.0.1 255.0.0.0
 
 **No cliente(Linux_ubu-2):**
 	
-		Linux_ubu-2 > openvpn --remote 192.168.1.10 --dev tap --ifconfig 10.0.0.2 255.0.0.0
+		Linux_ubu-2 > sudo openvpn --remote 192.168.1.10 --dev tap --ifconfig 10.0.0.2 255.0.0.0
 
 *Para mudar a porta padrao usamos **--port** seguido da porta.**(FEITO NO CLIENTE E SERVIDOR)***
 
-	Linux_ubu-1 & 2> openvpn --port 315 --dev tap --ifconfig 10.0.0.1 255.0.0.0
+	Linux_ubu-1 & 2 > sudo openvpn --port 315 --dev tap --ifconfig 10.0.0.1 255.0.0.0
 
 *Podemos compactar o trafego com o **--comp-lzo yes**.* 
 
-	Linux_ubu-1 & 2 > openvpn --comp-lzo yes --dev tap --ifconfig 10.0.0.1 255.0.0.0
+	Linux_ubu-1 & 2 > sudo openvpn --comp-lzo yes --dev tap --ifconfig 10.0.0.1 255.0.0.0
 
 
 ***Qual é a diferença entre TUN driver e TAP
