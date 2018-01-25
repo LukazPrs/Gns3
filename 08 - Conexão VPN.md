@@ -8,7 +8,7 @@ Primeiro vamos adicionar IP nos PCs da Lan1:
 
 *Linux_ubu1: Abra o terminal na máquina virtual e digite o seguinte comando para adicionar IP na interface enp0s3(ou outra de sua escolha)*
 
-	Linux_ubu-1 > sudo ifconfig enp0s3 192.168.1.10
+	Linux_ubu-1 > sudo ifconfig enp0s3 192.168.1.10a
 	Linux_ubu-1 > sudo route add default gw 192.168.1.1   (adicionar gateway do R1)
 
 	PC1 > ip 192.168.1.20 255.255.255.0 192.168.1.1
