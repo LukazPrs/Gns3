@@ -1,4 +1,4 @@
-Fazer um servidor Web usando Nginx no Ubuntu, usando a topologia do tutorial anterior e adicionando mais uma maquina virtual para ser nosso servidor web.
+Fazer um servidor Web usando Nginx no Ubuntu, usando a topologia do tutorial anterior e adicionando mais uma máquina virtual para ser nosso servidor web.
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/264/201/original/ServerWEB.png?1516904426)
 
