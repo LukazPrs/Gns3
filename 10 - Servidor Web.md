@@ -17,8 +17,10 @@ Depois de construído a página, adicionaremos um IP estático para o endereço 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/264/235/original/IpWeb.png?1516906938)
 
 IP adicionado para o servidor web é 192.168.1.100.
+
 Reinicie o ubuntu para o IP ser adicionado.
 Depois disso vamos colocar em nosso servidor DNS, o domínio para que possamos acessar do nosso PC01 ou PC02 a página do servidor web via domínio.
+
 Para isso, vamos adicionar uma linha em dois arquivo do nosso DNS.
 No servidor DNS, entre no diretório: **cd /etc/bind/**  e depois abra o arquivo de zona direta que você escolheu o nome: **sudo nano db.risc.net**
 
@@ -31,8 +33,10 @@ Agora adicionaremos também no arquivo de zona reversa: **sudo nano db.192**.
 
 Reinicie o servidor dns(bind): **sudo /etc/init.d/bind9 restart**
 Agora os PCs ja conseguem acessar o servidor web usando o domínio e seu nome que foi adicionado no DNS.
-Não esqueça de adicionar o servidor criado como servidor DNS de nossos PCs no arquivo resolv.conf como no tutorial passado.
-Feito isso, abra o navegador e acesso a página do servidor web via domínio:
+
+***Não esqueça de adicionar o servidor criado como servidor DNS de nossos PCs no arquivo resolv.conf como no tutorial passado.***
+
+Feito isso, abra o navegador do PC e acesse a página do servidor web via domínio:
 **web.risc.net**
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/264/352/original/paginaWEb.png?1516909959)
