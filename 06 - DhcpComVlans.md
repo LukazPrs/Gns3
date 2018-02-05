@@ -1,4 +1,5 @@
 **Atribuir IPs para as Vlans 10 e 20, cada uma com suas faixas de IPs.**
+
 Usaremos um roteador para simular um Servidor DHCP, um switch para configurar duas Vlans e 4 Pcs que estarão em suas Vlans. Usaremos a Topologia abaixo.
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/148/750/original/Topologia.png?1508953080)
