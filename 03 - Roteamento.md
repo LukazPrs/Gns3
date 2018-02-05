@@ -4,16 +4,16 @@ Usaremos dois roteadores centrais para fazer a comunicação entre dois PCs, as 
 
 ![imagem](https://uploaddeimagens.com.br/images/001/138/416/original/rede2rot.png?1508263501)
 
-Como mostrado na figura, usaremos o IP 192.168.1.10 para o PC1 e 192.168.3.20. Vamos adicionar os IPs nos PCs.
-O Gateway dos PCs deve ser o IP da interface conectada como mostra na figura acima.
+Como mostrado na figura, usaremos o IP 192.168.1.10 para o PC1 e 192.168.3.20 para o PC2. Vamos adicionar os IPs nos PCs.
+O Gateway dos PCs deve ser o IP da interface conectada(ip do roteador) como mostra na figura acima.
 **Adicionando IP ao PC1:**
 
-    PC1>  192.168.1.10 255.255.255.0 192.168.1.1
+    PC1>  ip 192.168.1.10 255.255.255.0 192.168.1.1
     
 
 **Adicionando IP ao PC2:**
 
-    PC1>  192.168.3.20 255.255.255.0 192.168.3.1
+    PC2>  ip 192.168.3.20 255.255.255.0 192.168.3.1
 
 É necessário configurar a interface dos roteadores, cada interface terá seu IP, sendo estas de redes diferentes.
 Abrir o console do R1 e adicionar os IPs nas interfaces conectadas, neste caso interface fastEthernet 0/0 e 0/1.
