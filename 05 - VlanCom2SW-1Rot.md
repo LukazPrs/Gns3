@@ -101,12 +101,12 @@ Finalizado o switch2, falta somente configurar as interfaces da Vlan10 e 20 em R
 
     R1# int f0/0.10
     R1# encapsulation dot1q 10
-    R1# ip add 192.168.1.1255.255.255.0
+    R1# ip add 192.168.1.1 255.255.255.0
     R1# exit
 
     R1# int f0/0.20
     R1# encapsulation dot1q 10
-    R1# ip add 192.168.2.1255.255.255.0
+    R1# ip add 192.168.2.1 255.255.255.0
     R1# exit
     R1# ip routing
     R1# exit
