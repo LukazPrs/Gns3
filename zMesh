@@ -1,0 +1,16 @@
+**Rede Mesh Unleashed**
+
+Configurar AP-Master que será o AP ligado a internet e terá acesso a todos APs.
+1 - Resetar o radio e entrar em seu IP padrão(192.168.0.1) e configurar o radio com a opção de Mesh ativado.
+Na configuração será necessário adicionar um IP ao radio(ou deixar o padrão), ativar o modo gateway e escolher uma SSID e senha Mesh.
+Escolher também um nome para SSID e senha da rede wireless.
+Feito isso aguarde o radio criar a rede.
+2- Conectar o AP-Master a internet e adicionar APs Mesh a esta rede criada.
+Ligar o AP-Master a um switch com internet.
+
+3- Configurar os APs que serão integrados a rede do AP-Master.
+Resetar o radio e fazer a mesma configuração do Master, colocando os APs na mesma rede do AP-Master.
+Ativar o modo gateway e também o modo Mesh, usando a mesma SSID e senha do Mesh usada no AP-Master.
+Feito isso aguarde o radio criar a rede.
+
+4- Com o Master e os APs configurados na mesma rede, conecte todos em um mesmo switch para que  rede mesh seja configurada automaticamente pelo AP-Master.
