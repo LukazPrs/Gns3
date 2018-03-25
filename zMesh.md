@@ -31,9 +31,13 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
 **4- Com o Master e os APs configurados na mesma rede, conecte todos em um mesmo switch para que  rede Mesh seja configurada automaticamente pelo AP-Master.**
 
  - Ao colocar o Master e os APs no mesmo switch, o Master deverá adicionar os APs a sua rede automaticamente.
- - Conectado a SSID do Master, você poderá ver em sua interface se os APs estão fazendo parte da rede do AP-Master como APs adicionais.
+ - Conectado a SSID do Master, você poderá ver em sua interface se os APs estão fazendo parte da rede do AP-Master como APs adicionais(como na imagem abaixo).
+ 
+![enter image description here](https://uploaddeimagens.com.br/images/001/345/305/original/1.png?1522015512)
+
  - Depois dos APs estarem fazendo parte do AP-Master, o cabo ligado ao switch poderá ser desconectado e será somente necessário o cabo **PoE** ligado em cada  AP.
  - Somente o AP-Master estará ligado com cabo PoE e com o cabo ao switch com internet.
+ - Na aba de Pontos de acesso, os APs estarão atribuídos como Mesh, isso para cada um dos APs adicionados.
 
 
 
