@@ -5,7 +5,7 @@ Configurar AP-Master que será o AP ligado a internet(via cabo) e terá acesso a
 **Iniciando a configuração do zero.**
 Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
 
-1 - Ao iniciar o **setup** pela primeira vez do Unleashed, ligue um cabo do radio até seu PC e coloque manualmente um IP da rede padrão do radio(192.168.0.1). Ao colocar o IP manualmente, acesse o radio através do IP 192.1698.0.1 usando um navegador.
+**1 - Ao iniciar o *`setup`* pela primeira vez do Unleashed, ligue um cabo do radio até seu PC e coloque manualmente um IP da rede padrão do radio(192.168.0.1). Ao colocar o IP manualmente, acesse o radio através do IP 192.1698.0.1 usando um navegador.**
 
  - Na configuração será necessário adicionar um IP ao radio(ou deixar o padrão), ativar o modo gateway e escolher uma SSID e senha Mesh(tem que ser igual em todos APs), além de escolher uma rede que será a rede responsável pela conexão dos APs e clientes.
  
@@ -31,6 +31,9 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
 **4- Com o Master e os APs configurados na mesma rede, conecte todos em um mesmo switch para que  rede Mesh seja configurada automaticamente pelo AP-Master.**
 
  - Ao colocar o Master e os APs no mesmo switch, o Master deverá adicionar os APs a sua rede automaticamente.
- - Conectado a SSID do Master, você poderá ver em sua interface se os APs estão fazendo parte da rede do AP-Master.
+ - Conectado a SSID do Master, você poderá ver em sua interface se os APs estão fazendo parte da rede do AP-Master como APs adicionais.
  - Depois dos APs estarem fazendo parte do AP-Master, o cabo ligado ao switch poderá ser desconectado e será somente necessário o cabo **PoE** ligado em cada  AP.
- - O AP-Master estará ligado com cabo PoE e com o cabo ao switch com internet.
+ - Somente o AP-Master estará ligado com cabo PoE e com o cabo ao switch com internet.
+
+
+
