@@ -1,6 +1,7 @@
 **Rede Mesh Unleashed - Ruckus R600**
+Este tutorial tem o objetivo de auxiliar o leitor na criação de uma rede Mesh usando rádio R600 da Ruckus, tendo como exemplo uma rede de teste com apenas 3 equipamentos.
 
-Configurar AP-Master que será o AP ligado a internet(via cabo) e terá acesso a todos APs que serão Mesh-APs. A rede mesh a ser implementada seguirá a topologia abaixo.
+Primeiro configurar AP-Master que será o AP ligado a internet(via cabo) e terá acesso a todos APs que serão Mesh-APs. A rede mesh a ser implementada seguirá a topologia abaixo.
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/348/122/original/topologia2.png?1522179556)
 
@@ -45,5 +46,7 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
  - Na aba de Pontos de acesso, os APs estarão atribuídos como Mesh, isso para cada um dos APs adicionados.
  
 ![enter image description here](https://uploaddeimagens.com.br/images/001/347/886/original/4-aps.png?1522172880)
+
+Feito isso, a rede mesh estará configurada e em funcionamento.
 
 
