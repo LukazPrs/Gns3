@@ -38,6 +38,7 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
  - Depois dos APs estarem fazendo parte do AP-Master, o cabo ligado ao switch poderá ser desconectado e será somente necessário o cabo **PoE** ligado em cada  AP.
  - Somente o AP-Master estará ligado com cabo PoE e com o cabo ao switch com internet.
  - Na aba de Pontos de acesso, os APs estarão atribuídos como Mesh, isso para cada um dos APs adicionados.
-
+ 
+![enter image description here](https://uploaddeimagens.com.br/images/001/347/886/original/4-aps.png?1522172880)
 
 
