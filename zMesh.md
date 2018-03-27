@@ -1,6 +1,8 @@
 **Rede Mesh Unleashed - Ruckus R600**
 
-Configurar AP-Master que será o AP ligado a internet(via cabo) e terá acesso a todos APs que serão Mesh-APs.
+Configurar AP-Master que será o AP ligado a internet(via cabo) e terá acesso a todos APs que serão Mesh-APs. A rede mesh a ser implementada seguirá a topologia abaixo.
+
+![enter image description here](https://uploaddeimagens.com.br/images/001/348/122/original/topologia2.png?1522179556)
 
 **Iniciando a configuração do zero.**
 Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
@@ -14,7 +16,7 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
  - Ao aparecer o SSID criado, o Master estará configurado já poderá ser acessado sem cabo.
 
 
-**2- Conectar o AP-Master a internet e adicionar APs Mesh a esta rede criada.**
+**2- Conectar o AP-Master a internet**
 
  - Ligar o AP-Master a um switch com internet.
  
@@ -35,7 +37,10 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
  
 ![enter image description here](https://uploaddeimagens.com.br/images/001/345/305/original/1.png?1522015512)
 
- - Depois dos APs estarem fazendo parte do AP-Master, o cabo ligado ao switch poderá ser desconectado e será somente necessário o cabo **PoE** ligado em cada  AP.
+ - Depois dos APs estarem fazendo parte do AP-Master, o cabo ligado ao switch poderá ser desconectado e será somente necessário o cabo **PoE** ligado em cada  AP(se tornando a topologia abaixo).
+ 
+ ![enter image description here](https://uploaddeimagens.com.br/images/001/348/119/original/topologia1.png?1522179539)
+ 
  - Somente o AP-Master estará ligado com cabo PoE e com o cabo ao switch com internet.
  - Na aba de Pontos de acesso, os APs estarão atribuídos como Mesh, isso para cada um dos APs adicionados.
  
