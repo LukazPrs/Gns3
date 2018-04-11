@@ -47,6 +47,8 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
  
 ![enter image description here](https://uploaddeimagens.com.br/images/001/347/886/original/4-aps.png?1522172880)
 
-Feito isso, a rede mesh estará configurada e em funcionamento.
+Feito isso, a rede mesh estará configurada e em funcionamento, restando somente posicionar os APs nos locais e mantendo o sinal razoável entre eles para que possam se comunicar e trabalhar em conjunto.
+
+
 
 
