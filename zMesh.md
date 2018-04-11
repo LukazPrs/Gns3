@@ -52,3 +52,16 @@ Feito isso, a rede mesh estará configurada e em funcionamento, restando somente
 
 
 
+## Teste Práticos
+
+Foram feitos testes usando a topologia abaixo, onde o AP-Master era o único dispositivo conectado a internet e seus APs recebem seu sinal e propagam a diante. Os APs-Mesh podem se conectar com o AP-Master ou com outros APs-Mesh(como na imagem abaixo) dependendo da qualidade do sinal e distância entre eles.
+
+![enter image description here](https://uploaddeimagens.com.br/images/001/367/749/original/mesh.png?1523413791)
+
+![enter image description here](https://uploaddeimagens.com.br/images/001/367/758/original/3AP-PRONTO.png?1523414833)
+
+A conexão dos APs estão em torno do 30 ~ 50% de sinal, a topologia foi montada e deixada ligada por aproximadamente 2 semanas. Foi feito um testes de velocidade de conexão entre os APs utilizando o **speedflex** da própria ruckus.
+
+![enter image description here](https://uploaddeimagens.com.br/images/001/367/765/original/3AP-Pronto2.png?1523415377)
+
+Testando a largura de banda usando o programa **Iperf**, entre 3 APs, os seguintes testes foram obtidos.
