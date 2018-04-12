@@ -26,6 +26,7 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
 **2- Conectar o AP-Master a internet**
 
  - Ligar o AP-Master a um switch com internet.
+ - Colocar o radio na porta WAN2(em configurações do AP)
  
 
 **3- Configurar os APs que serão integrados a rede do AP-Master.**
@@ -57,10 +58,11 @@ Feito isso, a rede mesh estará configurada e em funcionamento, restando somente
 
 
 
+    
 
-## Teste Práticos
+**Teste 1**
 
-Foram feitos testes usando a topologia abaixo, onde o AP-Master era o único dispositivo conectado a internet e seus APs recebem seu sinal e propagam a diante. Os APs-Mesh podem se conectar com o AP-Master ou com outros APs-Mesh(como na imagem abaixo) dependendo da qualidade do sinal e distância entre eles.
+Foram feitos testes usando a topologia abaixo, onde o AP-Master era o único dispositivo conectado a internet e seus APs recebem seu sinal e propagam a diante. Os APs-Mesh podem se conectar com o AP-Master ou com outros APs-Mesh dependendo da qualidade do sinal e distância entre eles.
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/367/749/original/mesh.png?1523413791)
 
@@ -70,4 +72,17 @@ A conexão dos APs estão em torno do 30 ~ 50% de sinal, a topologia foi montada
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/367/765/original/3AP-Pronto2.png?1523415377)
 
+**Teste 2**
+Foi testado um ambiente com a utilização de 4 equipamentos com uma conexão entre os mesmos em forme sequencial, onde cada Mesh-AP conecta com outro até o destino que é o AP-Master.
+
+![enter image description here](https://uploaddeimagens.com.br/images/001/370/950/original/mesh.png?1523566366)
+
+![enter image description here](https://uploaddeimagens.com.br/images/001/371/054/original/4app.png?1523570894)
+
+Foi feito um teste de velocidade entre o AP-Master até o Mesh-AP4, que estava em uma distância de 3 saltos até o destino.
+
+
+
+
+ 
 Testando a largura de banda usando o programa **Iperf**, entre 3 APs, os seguintes testes foram obtidos.
