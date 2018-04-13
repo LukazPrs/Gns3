@@ -1,4 +1,5 @@
 
+
 **Rede Mesh Unleashed - Ruckus R600**
 
 Este tutorial tem o objetivo de auxiliar o leitor na criação de uma rede Mesh usando rádio R600 da Ruckus, tendo como exemplo uma rede de teste com apenas 3 equipamentos, mas que é semelhante com uma quantidade maior de equipamentos.
@@ -26,7 +27,9 @@ Instalar em cada R600 a versão mais atual do Firmware Unleashed(**200.5**).
 **2- Conectar o AP-Master a internet**
 
  - Ligar o AP-Master a um switch com internet.
- - Colocar o radio na porta WAN2(em configurações do AP)
+ - Colocar o radio na porta WAN2(em configurações do AP).
+ - Verificar o funcionamento da internet.
+ 
  
 
 **3- Configurar os APs que serão integrados a rede do AP-Master.**
@@ -62,27 +65,28 @@ Feito isso, a rede mesh estará configurada e em funcionamento, restando somente
 
 **Teste 1**
 
-Foram feitos testes usando a topologia abaixo, onde o AP-Master era o único dispositivo conectado a internet e seus APs recebem seu sinal e propagam a diante. Os APs-Mesh podem se conectar com o AP-Master ou com outros APs-Mesh dependendo da qualidade do sinal e distância entre eles.
+Foram feitos testes práticos usando a topologia abaixo, onde o AP-Master era o único dispositivo conectado a internet e seus APs recebem seu sinal e propagam a diante. Os APs-Mesh podem se conectar com o AP-Master ou com outros Mesh-APs dependendo da qualidade do sinal e distância entre eles.
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/367/749/original/mesh.png?1523413791)
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/367/758/original/3AP-PRONTO.png?1523414833)
 
-A conexão dos APs estão em torno do 30 ~ 50% de sinal, a topologia foi montada e deixada ligada por aproximadamente 2 semanas. Foi feito um testes de velocidade de conexão entre os APs utilizando o **speedflex** da própria ruckus.
+A conexão dos APs estão em torno do 35 ~ 50% de sinal, a topologia foi montada e deixada ligada por aproximadamente 2 semanas. Foi feito um testes de velocidade de conexão entre os APs utilizando o **speedflex** da própria ruckus.
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/367/765/original/3AP-Pronto2.png?1523415377)
 
+Quanto menos obstáculos haver entre a comunicação dos equipamentos, melhor será seu desempenho máximo, tendo que alguns testes foram feitos com e também sem esses obstáculos.
+
 **Teste 2**
-Foi testado um ambiente com a utilização de 4 equipamentos com uma conexão entre os mesmos em forme sequencial, onde cada Mesh-AP conecta com outro até o destino que é o AP-Master.
+Foi testado um ambiente com a utilização de 4 equipamentos com uma conexão entre os mesmos em forme sequencial, onde cada Mesh-AP conecta com outro até o destino que é o AP-Master(todos com obstáculos).
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/370/950/original/mesh.png?1523566366)
 
 ![enter image description here](https://uploaddeimagens.com.br/images/001/371/054/original/4app.png?1523570894)
 
-Foi feito um teste de velocidade entre o AP-Master até o Mesh-AP4, que estava em uma distância de 3 saltos até o destino.
+Foi feito um teste de velocidade entre o AP-Master até o Mesh-AP4, que estava em uma distância de 3 saltos até o destino. Dependendo do sinal entre os equipamentos a perda de banda pode ser muito grande e assim outros dispositivos que usarem este sinal(fraco), terá uma perda ainda maior. 
+![enter image description here](https://uploaddeimagens.com.br/images/001/372/320/original/test2.png?1523643432)
+
+Sempre há perde de banda em cada quantidade de salto, este ambiente foi feito em locais fechado e assim diminuindo a qualidade de conexão entre os dispositivos. Em ambientes abertos, a perde é pequena e a distancia entre os dispositivos podem ser maiores, desde que mantenham uma boa porcentagem de conexão entre os mesmos.  
 
 
-
-
- 
-Testando a largura de banda usando o programa **Iperf**, entre 3 APs, os seguintes testes foram obtidos.
