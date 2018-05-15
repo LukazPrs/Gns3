@@ -1,0 +1,62 @@
+**
+
+## Criando Ubuntu Mirror usando APT-Mirror
+
+**
+
+Usaremos a conexão FTP(programa proftpd), que será usada pelo clientes para atualizarem seu Ubuntu(17.10 artiful).
+
+Inicialmente colocar um IP fixo na maquina que será o Mirror.
+Baixar os programas que serão usados.
+
+    sudo apt-get install apt-mirror proftpd
+
+Depois de baixado, criar e configurar o arquivo FTP.
+
+    sudo nano /etc/proftpd/conf.d/anonymous.conf
+
+Dentro do arquivo, digite as seguintes linhas:
+
+    <Anonymous ~ftp>
+    User                    ftp
+    Group                nogroup
+    UserAlias         anonymous ftp
+    RequireValidShell        off
+    .#   MaxClients                   10  
+    <Directory *>
+    <Limit WRITE>
+    DenyAll
+    </Limit>
+    </Directory>
+    </Anonymous>
+
+Depois, abrir o arquivo de configuração do apt-mirror e configurar o diretorio de download e os pacotes a serem baixados.
+
+    sudo nano /etc/apt/mirror.list
+
+Escolha o local a ser baixado os pacotes
+..
+
+Logo abaixo coloque os links para serem baixados(no exemplo usamos a versão 17,10 artful).
+..
+
+
+Depois de configurado o arquivo com as listas, digite o comando abaixo para começar a fazer download dos pacotes.
+
+    sudo apt-mirror
+
+Depois de baixado crie um link apontando o diretório do Mirror com o diretório do FTP(o diretorio depende de onde você baixou seus pacotes).
+
+    sudo mount --bind /var/spool/apt-mirror/mirror/archive.ubuntu.com/ /srv/ftp
+
+Depois de finalizado, fazer os testes em clientes usando seu Mirror como local de atualização e download de pacotes.
+
+Nos clientes, edite a sources.list para adicionar o ip do seu servidor como local de atualização.
+No Cliente:
+
+    sudo nano /etc/apt/sources.list
+
+Remova todas as linhas ou comente cada uma, deixando as 3 linhas abaixo.
+...
+
+
