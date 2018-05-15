@@ -4,7 +4,7 @@
 
 **
 
-Usaremos a conexão FTP(programa proftpd), que será usada pelo clientes para atualizarem seu Ubuntu(17.10 artiful).
+Usaremos a conexão FTP(programa proftpd), que será usada pelo clientes para atualizarem seu Ubuntu(17.10 artful).
 
 Inicialmente colocar um IP fixo na maquina que será o Mirror.
 Baixar os programas que serão usados.
@@ -57,6 +57,10 @@ No Cliente:
     sudo nano /etc/apt/sources.list
 
 Remova todas as linhas ou comente cada uma, deixando as 3 linhas abaixo.
-...
+
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful main restricted  
+    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful main restricted  
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted  
+    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted
 
 
