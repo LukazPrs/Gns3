@@ -64,3 +64,25 @@ Remova todas as linhas ou comente cada uma, deixando as 3 linhas abaixo.
     deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted
 
 
+
+------------
+**7.** Last step is to make sure that **Proftpd** server is automatically started after system **reboot** and **mirror-cache**directory is also automatically mounted on ftp server path. To automatically enable proftpd run the following command.
+
+    sudo update-rc.d proftpd enable
+
+
+To automatically mount **apt-mirror** cache on proftpd open and edit **/etc/rc.local** file.
+
+    sudo nano /etc/rc.local
+
+adicionar no final do arquivo
+
+    sleep 5
+    sudo mount --bind /var/spool/apt-mirror/mirror/archive.ubuntu.com/ /srv/ftp
+
+
+**8.** For a daily **apt-mirror** synchronization you can also create a system schedule job to run at 2 AM every day. Run [crontab command](https://www.tecmint.com/11-cron-scheduling-task-examples-in-linux/), select your preferred editor then add the following line syntax.
+
+
+
+https://www.tecmint.com/setup-local-repositories-in-ubuntu/
