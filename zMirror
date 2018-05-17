@@ -1,3 +1,4 @@
+
 **
 
 ## Criando Ubuntu Mirror usando APT-Mirror
@@ -6,7 +7,7 @@
 
 Usaremos a conexão FTP(programa proftpd), que será usada pelo clientes para atualizarem seu Ubuntu(17.10 artful).
 
-Inicialmente colocar um IP fixo na maquina que será o Mirror.
+1 - Inicialmente colocar um IP fixo na maquina que será o Mirror.
 Baixar os programas que serão usados.
 
     sudo apt-get install apt-mirror proftpd
@@ -30,14 +31,15 @@ Dentro do arquivo, digite as seguintes linhas:
     </Directory>
     </Anonymous>
 
-Depois, abrir o arquivo de configuração do apt-mirror e configurar o diretorio de download e os pacotes a serem baixados.
+2 - Depois, abrir o arquivo de configuração do apt-mirror e configurar o diretório de download e os pacotes a serem baixados.
 
     sudo nano /etc/apt/mirror.list
 
-Escolha o local a ser baixado os pacotes
-..
+Escolha o local a ser baixado os pacotes na seguinte linha:
 
-Logo abaixo coloque os links para serem baixados(no exemplo usamos a versão 17,10 artful).
+    set  base_path	/var/spool/apt-mirror
+
+Logo abaixo coloque os links para serem baixados(**no exemplo usamos a versão 17.10 artful**).
 ..
 
 
@@ -45,14 +47,14 @@ Depois de configurado o arquivo com as listas, digite o comando abaixo para come
 
     sudo apt-mirror
 
-Depois de baixado crie um link apontando o diretório do Mirror com o diretório do FTP(o diretorio depende de onde você baixou seus pacotes).
+3 - Depois de baixado crie um link apontando o diretório do Mirror com o diretório do FTP(o diretório depende de onde você baixou seus pacotes).
 
     sudo mount --bind /var/spool/apt-mirror/mirror/archive.ubuntu.com/ /srv/ftp
 
 Depois de finalizado, fazer os testes em clientes usando seu Mirror como local de atualização e download de pacotes.
 
-Nos clientes, edite a sources.list para adicionar o ip do seu servidor como local de atualização.
-No Cliente:
+4 - Nos clientes, edite a sources.list para adicionar o ip do seu servidor como local de atualização.
+**No Cliente:**
 
     sudo nano /etc/apt/sources.list
 
@@ -66,23 +68,28 @@ Remova todas as linhas ou comente cada uma, deixando as 3 linhas abaixo.
 
 
 ------------
-**7.** Last step is to make sure that **Proftpd** server is automatically started after system **reboot** and **mirror-cache**directory is also automatically mounted on ftp server path. To automatically enable proftpd run the following command.
+5 - A última etapa é garantir que o servidor Proftpd seja iniciado automaticamente após a reinicialização do sistema e o diretório mirror-cache também seja montado automaticamente no caminho do servidor FTP.
 
     sudo update-rc.d proftpd enable
 
 
-To automatically mount **apt-mirror** cache on proftpd open and edit **/etc/rc.local** file.
+Para montar automaticamente o cache do apt-mirror no proftpd, abra e edite o arquivo **/etc/rc.local.**
 
     sudo nano /etc/rc.local
 
-adicionar no final do arquivo
+Adicionar no final do arquivo
 
     sleep 5
     sudo mount --bind /var/spool/apt-mirror/mirror/archive.ubuntu.com/ /srv/ftp
 
 
-**8.** For a daily **apt-mirror** synchronization you can also create a system schedule job to run at 2 AM every day. Run [crontab command](https://www.tecmint.com/11-cron-scheduling-task-examples-in-linux/), select your preferred editor then add the following line syntax.
+6 - Para uma sincronização diária do apt-mirror, você também pode criar uma rotina de atualização do mirror para ser executado às 1h(manhã) todos os dias.
 
+     sudo crontab –e
 
+Digite numero **2** e adicione na ultima linha do arquivo o seguinte comando:
 
-https://www.tecmint.com/setup-local-repositories-in-ubuntu/
+    0  1  *  *  *  /usr/bin/apt-mirror >> /var/spool/apt-mirror/mirror/archive.ubuntu.com/ubuntu/apt-mirror.log
+
+**Feito isso, o mirror esta finalizado.**
+
