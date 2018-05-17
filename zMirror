@@ -40,12 +40,44 @@ Escolha o local a ser baixado os pacotes na seguinte linha:
     set  base_path	/var/spool/apt-mirror
 
 Logo abaixo coloque os links para serem baixados(**no exemplo usamos a versão 17.10 artful**).
-..
+
+    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
+    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
+    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
+    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
+    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+
+--
+
+    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
+    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
+    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
+    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
+    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+
+--
+
+    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
+    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
+    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
+    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
+    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+
+--
+
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+
 
 
 Depois de configurado o arquivo com as listas, digite o comando abaixo para começar a fazer download dos pacotes.
 
     sudo apt-mirror
+
+**[ Tamanho de download estimado 150 ~ 200GB ]**
 
 3 - Depois de baixado crie um link apontando o diretório do Mirror com o diretório do FTP(o diretório depende de onde você baixou seus pacotes).
 
@@ -60,10 +92,10 @@ Depois de finalizado, fazer os testes em clientes usando seu Mirror como local d
 
 Remova todas as linhas ou comente cada uma, deixando as 3 linhas abaixo.
 
-    deb http://**IP DO SERVIDOR**/ubuntu/ artful main restricted  
-    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful main restricted  
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful main restricted   
     deb http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted  
-    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful universe
+    deb http://**IP DO SERVIDOR**/ubuntu/ artful multiverse
 
 
 
@@ -92,4 +124,5 @@ Digite numero **2** e adicione na ultima linha do arquivo o seguinte comando:
     0  1  *  *  *  /usr/bin/apt-mirror >> /var/spool/apt-mirror/mirror/archive.ubuntu.com/ubuntu/apt-mirror.log
 
 **Feito isso, o mirror esta finalizado.**
+
 
