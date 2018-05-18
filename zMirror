@@ -41,35 +41,35 @@ Escolha o local a ser baixado os pacotes na seguinte linha:
 
 Logo abaixo coloque os links para serem baixados(**no exemplo usamos a versão 17.10 artful**).
 
-    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
-    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
-    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
-    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
-    deb-amd64 http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+    deb-amd64 http://br.archive.ubuntu.com/ubuntu/ artful main restricted universe multiverse
+    deb-amd64 http://br.archive.ubuntu.com/ubuntu/ artful-security main restricted universe multiverse
+    deb-amd64 http://br.archive.ubuntu.com/ubuntu/ artful-updates main restricted universe multiverse
+    deb-amd64 http://br.archive.ubuntu.com/ubuntu/ artful-proposed main restricted universe multiverse
+    deb-amd64 http://br.archive.ubuntu.com/ubuntu/ artful-backports main restricted universe multiverse
 
 --
 
-    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
-    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
-    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
-    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
-    deb-i386 http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+    deb-i386 http://br.archive.ubuntu.com/ubuntu/ artful main restricted universe multiverse
+    deb-i386 http://br.archive.ubuntu.com/ubuntu/ artful-security main restricted universe multiverse
+    deb-i386 http://br.archive.ubuntu.com/ubuntu/ artful-updates main restricted universe multiverse
+    deb-i386 http://br.archive.ubuntu.com/ubuntu/ artful-proposed main restricted universe multiverse
+    deb-i386 http://br.archive.ubuntu.com/ubuntu/ artful-backports main restricted universe multiverse
 
 --
 
-    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
-    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
-    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
-    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
-    deb-src http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+    deb-src http://br.archive.ubuntu.com/ubuntu/ artful main restricted universe multiverse
+    deb-src http://br.archive.ubuntu.com/ubuntu/ artful-security main restricted universe multiverse
+    deb-src http://br.archive.ubuntu.com/ubuntu/ artful-updates main restricted universe multiverse
+    deb-src http://br.archive.ubuntu.com/ubuntu/ artful-proposed main restricted universe multiverse
+    deb-src http://br.archive.ubuntu.com/ubuntu/ artful-backports main restricted universe multiverse
 
 --
 
-    deb http://**IP DO SERVIDOR**/ubuntu/ artful main restricted universe multiverse
-    deb http://**IP DO SERVIDOR**/ubuntu/ artful-security main restricted universe multiverse
-    deb http://**IP DO SERVIDOR**/ubuntu/ artful-updates main restricted universe multiverse
-    deb http://**IP DO SERVIDOR**/ubuntu/ artful-proposed main restricted universe multiverse
-    deb http://**IP DO SERVIDOR**/ubuntu/ artful-backports main restricted universe multiverse
+    deb http://br.archive.ubuntu.com/ubuntu/ artful main restricted universe multiverse
+    deb http://br.archive.ubuntu.com/ubuntu/ artful-security main restricted universe multiverse
+    deb http://br.archive.ubuntu.com/ubuntu/ artful-updates main restricted universe multiverse
+    deb http://br.archive.ubuntu.com/ubuntu/ artful-proposed main restricted universe multiverse
+    deb http://br.archive.ubuntu.com/ubuntu/ artful-backports main restricted universe multiverse
 
 
 
@@ -99,7 +99,6 @@ Remova todas as linhas ou comente cada uma, deixando as 3 linhas abaixo.
 
 
 
-------------
 5 - A última etapa é garantir que o servidor Proftpd seja iniciado automaticamente após a reinicialização do sistema e o diretório mirror-cache também seja montado automaticamente no caminho do servidor FTP.
 
     sudo update-rc.d proftpd enable
