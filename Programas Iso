@@ -1,0 +1,25 @@
+ls /usr/share/applications/
+dpkg --get-selections
+
+Programas
+
+apache2 /lambp
+blender
+codeblocks
+firefox
+gedit
+geogebra
+gimp
+google-earth
+KRITA
+netbeans
+java
+pgAdmin
+python
+qgis
+rhythmbox
+scratch
+scratch2
+vim
+nano
+
