@@ -1,7 +1,7 @@
 ls /usr/share/applications/
 dpkg --get-selections
 
-Programas
+Programas instalados no laboratório
 
 apache2 /lambp
 blender
@@ -22,4 +22,4 @@ scratch
 scratch2
 vim
 nano
-
+ 
