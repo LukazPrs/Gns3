@@ -3,7 +3,7 @@ dpkg --get-selections
 
 Programas instalados no laboratório
 
-apache2 /lambp
+apache2 /lamp
 blender
 codeblocks
 firefox
@@ -45,3 +45,41 @@ pgAdmin
 rhythmbox
 vim
 nano
+
+
+
+
+-- Programas Iso Lab1 --
+apache2 /lamp
+blender
+codeblocks
+firefox
+gedit
+geogebra
+gimp
+google-earth
+KRITA
+netbeans
+java
+pgAdmin
+python
+qgis
+rhythmbox
+scratch
+scratch2
+vim
+nano
+
+spring
+netica
+whiteDune
+Lightworks
+Inkscape
+ImageMagick
+GNU Octave
+Grass Gis 7
+Logisim
+QGis
+SuperLogo
+weka
+
