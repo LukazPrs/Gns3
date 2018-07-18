@@ -1,7 +1,7 @@
 ls /usr/share/applications/
 dpkg --get-selections
 
-Programas instalados no laboratório
+Programas instalados no laboratório 3
 
 apache2 /lamp
 blender
@@ -23,6 +23,8 @@ scratch2
 vim
 nano
  
+ 
+--------------------------------------------------------
 --- ISO Limpa 2.6GB
 Não Instalado **
 apache2 /
@@ -34,6 +36,7 @@ Qgis
 
 
 Já Instalado
+audacity
 blender
 codeblocks
 firefox
@@ -59,38 +62,40 @@ whiteDune
 
 
 
-
+--------------------------------------------------------
 -- Programas Iso Lab1 --
-apache2 /lamp
 blender
 codeblocks
 firefox
 gedit
-geogebra
+geogebra (*)
 gimp
-google-earth
 KRITA
+LibreOffice 6
 netbeans
 java
-pgAdmin
-python
-qgis
 rhythmbox
-scratch
-scratch2
+scratch2 (*)
 vim
 nano
 
-spring
-netica
-whiteDune
-Lightworks
+
+google-earth (*)
+scratch
+scratch2 (*)
+pgAdmin
+apache2 
+spring (*)
+netica  (*)
+whiteDune (*)
+Lightworks (*)
 Inkscape
 ImageMagick
 GNU Octave
 Grass Gis 7
 Logisim
-QGis
-SuperLogo
+QGis (*)
+SuperLogo (*)
 weka
+PostGreSQL
 
