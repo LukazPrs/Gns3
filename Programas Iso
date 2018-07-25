@@ -1,27 +1,41 @@
 ls /usr/share/applications/
 dpkg --get-selections
+ 
+ 
+------------ Programas Iso Lab1 --------------
+blender (m)
+codeblocks (m)
+firefox (m)
+geogebra (*)
+gimp (m)
+KRITA (...)
+LibreOffice 6 (PPA adicionado)
+netbeans (m)
+scratch (m)
+pgAdmin3 (m)
+apache2 (m)
+Inkscape (m)
 
-Programas instalados no laboratório 3
-
-apache2 /lamp
-blender
-codeblocks
-firefox
-gedit
-geogebra
-gimp
-google-earth
-KRITA
-netbeans
-java
-pgAdmin
-python
-qgis
-rhythmbox
-scratch
-scratch2
+scratch2 (*)
 vim
 nano
+
+
+google-earth (*)
+scratch2 (*)
+spring (*)
+netica  (*)
+whiteDune (*)
+Lightworks (*)
+ImageMagick
+GNU Octave
+Grass Gis 7
+Logisim
+QGis (*)
+SuperLogo (*)
+weka
+PostGreSQL
+ 
  
  
 --------------------------------------------------------
@@ -60,42 +74,27 @@ vim
 weka
 whiteDune
 
+-------------- OFF -------
 
+Programas instalados no laboratório 3
 
---------------------------------------------------------
--- Programas Iso Lab1 --
+apache2 /lamp
 blender
 codeblocks
 firefox
 gedit
-geogebra (*)
+geogebra
 gimp
+google-earth
 KRITA
-LibreOffice 6 (PPA adicionado)
 netbeans
 java
+pgAdmin
+python
+qgis
 rhythmbox
-scratch2 (*)
+scratch
+scratch2
 vim
 nano
-
-
-google-earth (*)
-scratch
-scratch2 (*)
-pgAdmin
-apache2 
-spring (*)
-netica  (*)
-whiteDune (*)
-Lightworks (*)
-Inkscape
-ImageMagick
-GNU Octave
-Grass Gis 7
-Logisim
-QGis (*)
-SuperLogo (*)
-weka
-PostGreSQL
 
