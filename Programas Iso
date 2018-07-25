@@ -6,7 +6,7 @@ dpkg --get-selections
 blender (m)
 codeblocks (m)
 firefox (m)
-geogebra (*)
+geogebra (m 4.0)
 gimp (m)
 KRITA (...)
 LibreOffice 6 (PPA adicionado)
@@ -19,21 +19,17 @@ QGis (m)
 weka (m)
 Logisim (m)
 PostGreSQL (m)
+Grass Gis 7 (m)
 
 scratch2 (*)
-vim
-nano
-
-
 google-earth (*)
 scratch2 (*)
 spring (*)
 netica  (*)
 whiteDune (*)
 Lightworks (*)
-ImageMagick
-GNU Octave
-Grass Gis 7
+ImageMagick (*)
+GNU Octave (*)
 SuperLogo (*)
  
  
