@@ -15,6 +15,10 @@ scratch (m)
 pgAdmin3 (m)
 apache2 (m)
 Inkscape (m)
+QGis (m)
+weka (m)
+Logisim (m)
+PostGreSQL (m)
 
 scratch2 (*)
 vim
@@ -30,11 +34,7 @@ Lightworks (*)
 ImageMagick
 GNU Octave
 Grass Gis 7
-Logisim
-QGis (*)
 SuperLogo (*)
-weka
-PostGreSQL
  
  
  
