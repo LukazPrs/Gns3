@@ -1,6 +1,27 @@
 ls /usr/share/applications/
 dpkg --get-selections
  
+ Softwares solicitados (2018/2):
+ 
+ Quantum Gis
+ OpenProj
+ UML StarUML
+ Google Earth Pro
+ Visual G(Win)
+ Hamachi(Win)
+ PostGreSQL 
+ PgAdmin
+ Super Logo(Win), 
+ Indiskape, 
+ GIMP; 
+ WINE para rodar o flash (8.0) portátil;
+ Scratch
+ Scratch (2.0)
+ ligtworks
+ Blender
+ Audacity
+    
+    
  
 ------------ Programas Iso Lab1 --------------
 blender (m)
