@@ -57,3 +57,4 @@ Configurar diretório apache([aqui](https://wiki.debian.org/DebianRepository/Set
     reprepro includedeb <osrelease> <debfile>
 
 ....
+wget -O - http://IP SV/minhachave.asc | sudo apt-key add -
