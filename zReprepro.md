@@ -8,8 +8,8 @@ Salve sua chave em um diretório(será colocada no caminho do repositório)
 
 Podemos usar o programa dpkg-sig para assinar os pacotes **.deb**
 
-> apt-get install dpkg-sig dpkg-sig --sign builder
-> mypackage_0.1.2_amd64.deb
+    > apt-get install dpkg-sig dpkg-sig --sign builder
+    > mypackage_0.1.2_amd64.deb
 
 ### Criando repositório reprepro
 Escolha o diretório do repositório e crie uma pasta, onde será montado o diretório do repositório reprepro.
