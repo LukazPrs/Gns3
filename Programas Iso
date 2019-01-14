@@ -3,25 +3,26 @@ dpkg --get-selections
  
  Softwares solicitados (2018/2):
  
- Quantum Gis
- OpenProj
+ Geogebra (reprepro)
+ Quantum Gis (m)
+ OpenProj (reprepro)
  UML StarUML
- Google Earth Pro
- Visual G(Win)
+ Google Earth Pro (reprepro)
+ Visual G(Win) (reprepro)
  Hamachi(Win)
- PostGreSQL 
- PgAdmin
+ PostGreSQL (m)
+ PgAdmin (m)
  Super Logo(Win), 
  
- Indiskape, 
- GIMP; 
- WINE para rodar o flash (8.0) portátil;
- Scratch
+ Indiskape (m)
+ GIMP (m)
+ WINE (m)
+ Scratch 1.4 (m)
  Scratch (2.0)
- ligtworks
- Blender
- Audacity
-    
+ ligtworks (reprepro -f)
+ Blender (m)
+ Audacity (m)
+ ----------------
     
  
 ------------ Programas Iso Lab1 --------------
