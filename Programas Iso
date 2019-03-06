@@ -3,25 +3,30 @@ dpkg --get-selections
  
  Softwares solicitados (2018/2):
  
- Geogebra (reprepro)
+ Geogebra 6.0 (reprepro)
  Quantum Gis (m)
  OpenProj (reprepro)
  UML StarUML
  Google Earth Pro (reprepro)
  Visual G(Win) (reprepro)
- Hamachi(Win)
  PostGreSQL (m)
  PgAdmin (m)
- Super Logo(Win), 
+ Super Logo(Win)
+ Inkscape (m)
+ Krita (m)
+ Java (m) 
+ Python3 (m)
  
  Indiskape (m)
  GIMP (m)
  WINE (m)
  Scratch 1.4 (m)
  Scratch (2.0)
- ligtworks (reprepro -f)
+ Ligtworks (reprepro -f)
  Blender (m)
  Audacity (m)
+ Apache2 (m)
+ Netbeans 8.2
  ----------------
     
  
