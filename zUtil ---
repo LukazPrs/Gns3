@@ -1,5 +1,20 @@
 Instalação Lamp 18.04
 
-apt install tasksel
-tasksel install lamp-server
+# apt install tasksel
+# tasksel install lamp-server
+
+Criar public_html para acesso ao usuario aluno e redirecionar apache2
+
+# mkdir $HOME/public_html
+# mv /var/www/html/index.html public_html/
+
+# sudo nano /etc/apache2/apache2.conf
+- substitua <Directory /var/www> pelo dir
+
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+Procure pela linha que tenha DocumentRoot
+Onde tem /var/www coloque o mesmo diretório que você colocou no arquivo apache2.conf.
+
+resiniciar apache2
 
