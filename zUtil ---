@@ -17,4 +17,18 @@ Procure pela linha que tenha DocumentRoot
 Onde tem /var/www coloque o mesmo diretório que você colocou no arquivo apache2.conf.
 
 resiniciar apache2
+_________________________________________________________________________________________________
 
+CONFIGURAÇÃO MYSQL
+CREATE USER 'aluno'@'localhost' IDENTIFIED BY '123';      criar usuario
+GRANT ALL PRIVILEGES ON *.* TO 'aluno'@'localhost';       dar privilegios
+Acessar com senha '123': mysql -u aluno -p
+_________________________________________________________________________________________________
+
+CONFIGURAR POSTGRESQL & PGADMIN
+echo "postgres:123" | chpasswd
+su postgres -c "psql -c \"alter user postgres with password '123';\""
+__________________________________________________________________________________________________
+--------------------------
+apt install gdm3  -> interface login ubuntu.
+--------------------------
