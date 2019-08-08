@@ -45,6 +45,23 @@ dependencias scratch2: apt-get install -y libgtk2.0-0:i386 \
                    libnss3:i386
                    
  __________________________________________________________________________________________________
+ ---- ANSIBLE
  
- 
- 
+ansible all -m command -a "shutdown now"
+
+ansible-playbook sources.yml
+____________________________________________________________________________________________________
+
+~~~~~~~~~~~  formatar pendrive
+umount
+umount /dev/sdb1
+mkfs.vfat /dev/sdb
+
+~~~~~ ~~~~~~ montar pendrive
+lsblk
+umount /dev/sdb1
+dd if=Ulinux3Full.iso of=/dev/sdb status=progress
+
+EDITAR PLYMOUTH
+/ush/share/plymouth/ubuntu-logo ...
+ ____________________________________________________________________________________________________
