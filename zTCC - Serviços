@@ -1,0 +1,12 @@
+Virtualização de serviços no contexto de NFV.
+
+Artigo: Funções de Rede Virtualizadas em Plataforma de Computacao em Nuvem para Cidades Inteligentes.
+Autor: Alexandre Heideker , Carlos Alberto Kamienskl
+Ano: 2015
+
+Tecnologias: Comp Urbana , Comp NUVEM OpenStack , NFV, IaaS
+
+Cenário com três componentes: consumidor, produtor e serviço. 
+O produtor é um servidor web fornecendo dados para os experimentos realizados. 
+O consumidor, representando os usuários em um ambiente urbano.
+Finalmente o serviço de infraestrutura que é promovido pelo OpenStack. 
