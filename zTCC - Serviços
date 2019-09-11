@@ -10,6 +10,8 @@ Serviços Virtualizados: Roteador e servidor DNS
 Rotedor = Neutron já virtualiza uma das funções utilizadas nos experimentos: o roteador
 DNS: Maquina Virtual KVM(Este mesmo método pode ser utilizado para criação de novas VNFs, tais como proxy, NAT, Firewall, etc)
 
+Requisições são geradas por hipervisor Xen
+
 Virtualização: O serviço de infraestrutura é provido pelo OpenStack 
 fornecendo dois tipos de VNFs para os experimentos: roteador e servidor DNS. 
 Neste trabalho utilizou-se a versão Juno do OpenStack, com a nova arquitetura de rede chamada Neutron.
