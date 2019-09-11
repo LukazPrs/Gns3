@@ -6,7 +6,32 @@ Ano: 2015
 
 Tecnologias: Comp Urbana , Comp NUVEM OpenStack , NFV, IaaS
 
+Serviços Virtualizados: Roteador e servidor DNS
+Rotedor = Neutron já virtualiza uma das funções utilizadas nos experimentos: o roteador
+DNS: Maquina Virtual KVM(Este mesmo método pode ser utilizado para criação de novas VNFs, tais como proxy, NAT, Firewall, etc)
+
+Virtualização: O serviço de infraestrutura é provido pelo OpenStack 
+fornecendo dois tipos de VNFs para os experimentos: roteador e servidor DNS. 
+Neste trabalho utilizou-se a versão Juno do OpenStack, com a nova arquitetura de rede chamada Neutron.
+
 Cenário com três componentes: consumidor, produtor e serviço. 
 O produtor é um servidor web fornecendo dados para os experimentos realizados. 
 O consumidor, representando os usuários em um ambiente urbano.
 Finalmente o serviço de infraestrutura que é promovido pelo OpenStack. 
+
+A característica principal do cenário de Computação Urbana que deve ser 
+representado no ambiente experimental é a grande quantidade de usuários 
+utilizando os serviços de rede: desde algumas dezenas até dezenas de milhares.
+
+Cada processo faz uma requisição ao servidor DNS, registrando o tempo necessário 
+para esta função. Em seguida é realizada a requisição do arquivo selecionado utilizando
+o protocolo HTTP ao servidor Web.
+
+
+
+
+
+
+
+
+
