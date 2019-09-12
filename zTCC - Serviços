@@ -29,11 +29,26 @@ Cada processo faz uma requisição ao servidor DNS, registrando o tempo necessá
 para esta função. Em seguida é realizada a requisição do arquivo selecionado utilizando
 o protocolo HTTP ao servidor Web.
 
+--------------------------------------------------------------------------------------------------------------------------
+
+Artigo: Emprego de NFV e Aprendizagem por Reforc¸o para Detectar e Mitigar Anomalias em Redes Deﬁnidas por Software
+Autor: Pedro H. A. Faustini1, Anderson S. Silva1, Lisandro Z. Granville1, Alberto E. Schaeffer-Filho1
+Ano:2017 
+
+Tecnologias: SDN, NFV, Aprendizagem de Maquina
+
+Serviços Virtualizados: Firewall -Docker(Agente determina a instanciação de um novo firewall para barrar ataques)
 
 
+Resumo: Uma rede de computadores esta sujeita a diversas anomalias, é necessario coordenar tecnicas de detecçao e mitigaçao 
+para mante-la operacional. Este artigo propoe aprendizagem por reforço para promover resiliencia em redes deﬁnidas por software (SDN).
+Propoe-se que metricas de rede sejam coletadas e agrupadas em perﬁs, cada um com um conjunto de açoes que trate problemas usando 
+aprendizagem por reforço, virtualizaçao de funçoes de rede (NFV) e um controlador SDN.
 
+Neste artigo, propomos um modelo de aprendizagem por reforço integrado a arquitetura de NFV por meio de um agente que reside no 
+orquestrador. O agente recebe metricas de rede e constroi perﬁs de rede. Cada perﬁl busca tratar uma anomalia. Cada perﬁl e formado
+por um conjunto de açoes, bem como uma tabela de estados e uma tabela estado-açao.
 
-
-
-
-
+Foi utilizada a plataforma Mininet, que emula uma SDN, e o framework Pox, que implementa a versao 1.0 do OpenFlow, para o 
+desenvolvimento do controlador. Contudo, Mininet nao prove suporte nativo para NFV. As funçoes de rede portanto foram 
+implementadas em conteineres Docker.
