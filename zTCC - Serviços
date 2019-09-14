@@ -52,3 +52,17 @@ por um conjunto de açoes, bem como uma tabela de estados e uma tabela estado-a�
 Foi utilizada a plataforma Mininet, que emula uma SDN, e o framework Pox, que implementa a versao 1.0 do OpenFlow, para o 
 desenvolvimento do controlador. Contudo, Mininet nao prove suporte nativo para NFV. As funçoes de rede portanto foram 
 implementadas em conteineres Docker.
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+Artigo: Gerenciamento Flexível de Infraestrutura de Acesso Público à Internet com NFV 
+Autor: Alexandre Heideker, Carlos Kamienski 
+Ano: 2016
+
+NAT* controlador de elasticidade com NFV(https://github.com/heideker/elasticNFV) - (Praças SP)
+
+
+O elemento fundamental de NFV é a técnica de virtualização e esta pode influenciar diretamente na performance e versatilidade da 
+implementação das Funções de Rede Virtualizadas (VNF). Entre as técnicas disponíveis, este trabalho avalia  a virtualização total, 
+a paravirtualização e os containers Linux.
