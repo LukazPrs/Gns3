@@ -62,7 +62,22 @@ Ano: 2016
 
 NAT* controlador de elasticidade com NFV(https://github.com/heideker/elasticNFV) - (Praças SP)
 
+Este trabalho utiliza NFV para solucionar o problema de fornecimento dinâmico e elástico de acesso público à internet nas 
+grandes cidades.
 
 O elemento fundamental de NFV é a técnica de virtualização e esta pode influenciar diretamente na performance e versatilidade da 
 implementação das Funções de Rede Virtualizadas (VNF). Entre as técnicas disponíveis, este trabalho avalia  a virtualização total, 
 a paravirtualização e os containers Linux.
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+Artigo>: Uma Arquitetura de Virtualização de Funções de Rede para Proteção Automática e Eﬁciente contra Ataques
+Autor: Leopoldo A.F.Mauricio, Igor D.Alvarenga, Marcelo G.Rubinstein e Otto CarlosM.B.Duarte
+Ano: 2017
+
+Virtualização: Firewall e IDS
+
+Este artigo propõe uma arquitetura de virtualização de funções de rede (Network Functions Virtualization - NFV) 
+que oferece proteção automática e eﬁciente contra ataques. Os ﬂuxos maliciosos são dinamicamente desviados por uma 
+cadeia de funções virtuais de rede (Virtual Network Functions VNFs)contendoumﬁrewalldeaplicaçãoeumIDS.
