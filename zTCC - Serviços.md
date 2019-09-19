@@ -1,14 +1,14 @@
-Virtualização de serviços no contexto de NFV.
 
-Artigo: Funções de Rede Virtualizadas em Plataforma de Computacao em Nuvem para Cidades Inteligentes.
-Autor: Alexandre Heideker , Carlos Alberto Kamienskl
-Ano: 2015
 
-Tecnologias: Comp Urbana , Comp NUVEM OpenStack , NFV, IaaS
+## Virtualização de serviços no contexto de NFV.
 
-Serviços Virtualizados: Roteador e servidor DNS
-Rotedor = Neutron já virtualiza uma das funções utilizadas nos experimentos: o roteador
-DNS: Maquina Virtual KVM(Este mesmo método pode ser utilizado para criação de novas VNFs, tais como proxy, NAT, Firewall, etc)
+Artigo: Funções de Rede Virtualizadas em Plataforma de Computacao em Nuvem para Cidades Inteligentes. Autor: Alexandre Heideker , Carlos Alberto Kamienskl Ano: 2015
+
+> Tecnologias: Comp Urbana , Comp NUVEM OpenStack , NFV, IaaS
+
+    Serviços Virtualizados: Roteador e servidor DNS
+    Rotedor = Neutron já virtualiza uma das funções utilizadas nos experimentos: o roteador
+    DNS: Maquina Virtual KVM(Este mesmo método pode ser utilizado para criação de novas VNFs, tais como proxy, NAT, Firewall, etc)
 
 Requisições são geradas por hipervisor Xen
 
