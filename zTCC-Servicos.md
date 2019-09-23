@@ -6,11 +6,11 @@ Artigo: Funções de Rede Virtualizadas em Plataforma de Computacao em Nuvem par
 
 > Tecnologias: Comp Urbana , Comp NUVEM OpenStack , NFV, IaaS
 
-    Serviços Virtualizados: Roteador e servidor DNS
-    Rotedor = Neutron já virtualiza uma das funções utilizadas nos experimentos: o roteador
-    DNS: Maquina Virtual KVM(Este mesmo método pode ser utilizado para criação de novas VNFs, tais como proxy, NAT, Firewall, etc)
+Serviços Virtualizados: Roteador e servidor DNS
+Rotedor = Neutron já virtualiza uma das funções utilizadas nos experimentos: o roteador
+DNS: Maquina Virtual KVM(Este mesmo método pode ser utilizado para criação de novas VNFs, tais como proxy, NAT, Firewall, etc)
 
-Requisições são geradas por hipervisor Xen
+Este artigo propõe e avalia o desempenho de uma solução para fornecer Funções de Rede Virtualizadas (VNF) utilizando a plataforma de computação em nuvem OpenStack, apresentando o ganho significativo de desempenho esperado.
 
 Virtualização: O serviço de infraestrutura é provido pelo OpenStack 
 fornecendo dois tipos de VNFs para os experimentos: roteador e servidor DNS. 
@@ -29,6 +29,7 @@ Cada processo faz uma requisição ao servidor DNS, registrando o tempo necessá
 para esta função. Em seguida é realizada a requisição do arquivo selecionado utilizando
 o protocolo HTTP ao servidor Web.
 
+Este trabalho apresenta a implementação do conceito de NFV utilizando a plataforma de Computação em Nuvem OpenStack, através da criação de máquinas virtuais específicas para a manipulação e tratamento do tráfego, além da utilização dos funções de rede nativas do OpenStack. Este conjunto de ferramentas, aplicado em um cenário de cidades inteligentes usando computação urbana com demanda crescente de recursos, mostra a melhoria do desempenho com a distribuição dinâmica de recursos virtuais de infraestrutura. Ambiciona-se responder se é possível otimizar e automatizar o fornecimento de recursos de telecomunicações neste ambiente altamente dinâmico, obter um equilíbrio entre custo e performance para uma qualidade de serviço adequada
 --------------------------------------------------------------------------------------------------------------------------
 
 Artigo: Emprego de NFV e Aprendizagem por Reforc¸o para Detectar e Mitigar Anomalias em Redes Deﬁnidas por Software
