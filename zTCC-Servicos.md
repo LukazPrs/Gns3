@@ -2,7 +2,9 @@
 
 ## Virtualização de serviços no contexto de NFV.
 
-Artigo: Funções de Rede Virtualizadas em Plataforma de Computacao em Nuvem para Cidades Inteligentes. Autor: Alexandre Heideker , Carlos Alberto Kamienskl Ano: 2015
+Artigo: Funções de Rede Virtualizadas em Plataforma de Computacao em Nuvem para Cidades Inteligentes. 
+Autor: Alexandre Heideker , Carlos Alberto Kamienskl 
+Ano: 2015
 
 > Tecnologias: Comp Urbana , Comp NUVEM OpenStack , NFV, IaaS
 
@@ -32,7 +34,7 @@ o protocolo HTTP ao servidor Web.
 Este trabalho apresenta a implementação do conceito de NFV utilizando a plataforma de Computação em Nuvem OpenStack, através da criação de máquinas virtuais específicas para a manipulação e tratamento do tráfego, além da utilização dos funções de rede nativas do OpenStack. Este conjunto de ferramentas, aplicado em um cenário de cidades inteligentes usando computação urbana com demanda crescente de recursos, mostra a melhoria do desempenho com a distribuição dinâmica de recursos virtuais de infraestrutura. Ambiciona-se responder se é possível otimizar e automatizar o fornecimento de recursos de telecomunicações neste ambiente altamente dinâmico, obter um equilíbrio entre custo e performance para uma qualidade de serviço adequada
 --------------------------------------------------------------------------------------------------------------------------
 
-Artigo: Emprego de NFV e Aprendizagem por Reforc¸o para Detectar e Mitigar Anomalias em Redes Deﬁnidas por Software
+Artigo: Emprego de NFV e Aprendizagem por Reforço para Detectar e Mitigar Anomalias em Redes Deﬁnidas por Software
 Autor: Pedro H. A. Faustini1, Anderson S. Silva1, Lisandro Z. Granville1, Alberto E. Schaeffer-Filho1
 Ano:2017 
 
@@ -82,3 +84,7 @@ Virtualização: Firewall e IDS
 Este artigo propõe uma arquitetura de virtualização de funções de rede (Network Functions Virtualization - NFV) 
 que oferece proteção automática e eﬁciente contra ataques. Os ﬂuxos maliciosos são dinamicamente desviados por uma 
 cadeia de funções virtuais de rede (Virtual Network Functions VNFs)contendoumﬁrewalldeaplicaçãoeumIDS.
+
+Controlador de segurança
+
+O principal objetivo da arquitetura NFV proposta é oferecer um sistema de proteção automático e eﬁciente contra ataques. São propostos três novos componentes na arquitetura. **O principal componente é o módulo Controlador de Segurança. Ele interage com duas funções virtuais de rede especíﬁcas e com a interface de rede virtual (ver Figura 1). As duas funções virtuais de rede são um sistema de detecção de intrusão denominado VNF-IDS e um ﬁrewall de aplicação web denominado VNF-WAF.
