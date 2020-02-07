@@ -1,0 +1,26 @@
+Instalaçao docker
+-> https://docs.docker.com/v17.09/engine/installation/linux/docker-ce/ubuntu/#install-docker-ce-1
+
+apt install docker-io
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ wello-world = docker container run hello-world
+
+$ docker container run debian
+
+Lista Containers
+$ docker ps
+$ docker ps -a
+
+Criar container e entrar no terminal
+$ docker container run -it debian bash
+
+Criar container com nome[de escolha]
+$ docker container run --name NomeContainer -it debian bash
+
+Entrar terminal container
+$ docker container start -ai NomeContainer
+
+Mapear porta docker
+
+
