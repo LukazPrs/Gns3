@@ -4,6 +4,10 @@ Instalaçao docker
 apt install docker-io
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Permissao
+$ sudo usermod -aG docker $USER
+$ newgrp docker
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $ wello-world = docker container run hello-world
 
 $ docker container run debian
@@ -21,6 +25,27 @@ $ docker container run --name NomeContainer -it debian bash
 Entrar terminal container
 $ docker container start -ai NomeContainer
 
-Mapear porta docker
+Criar container com Nginx com acesso pela porta indicada 
+$ docker container run -p 8080:80 nginx
+porta 8080 é a porta de saida(acessar atravez da porta 8080)
+porta 80 porta usada pelo serviço
+
+
+Mapear volume: criar pasta com arquivo index.html
+$ docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
+
+Mater container ligado
+$ docker container run -d --name Servidor -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
+
+Parar container
+$ docker container stop NOME
+$# docker stop NOME
+
+Log container
+$ docker container logs NOME
+$ docker container inspect Servidor
+
+Executar comando no container[docker container exec CONTAINER CMD]
+$ docker container exec Servidor uname -a
 
 
