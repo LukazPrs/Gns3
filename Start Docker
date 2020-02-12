@@ -48,4 +48,11 @@ $ docker container inspect Servidor
 Executar comando no container[docker container exec CONTAINER CMD]
 $ docker container exec Servidor uname -a
 
+Criar, executar cmd e deletar container
+$ docker container run --rm alpine ash -c "ifconfig"
 
+Pingar um container no outro
+$ docker container exec -it container1 ping 172.17.0.3
+
+Criar container e manter ativo
+$ docker container run -d --name container2 alpine sleep 1000
