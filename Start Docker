@@ -56,3 +56,6 @@ $ docker container exec -it container1 ping 172.17.0.3
 
 Criar container e manter ativo
 $ docker container run -d --name container2 alpine sleep 1000
+
+deletar todos containers
+$ docker rm $(docker ps -aq)
