@@ -2,6 +2,8 @@
 
 ## VPN site-to-site IPSec - PfSense
 
+![pfsense com 1 interface rede(lan)](https://i.ibb.co/Tvj5Xp1/PFSENSE-1-INTERFACE.png)
+
 **
 Cenário.
 ![cenario vpn](https://uploaddeimagens.com.br/images/002/552/931/original/VPN_site-to-site.png?1585260731) Ligar duas rede LANs através da rede WAN(net).
