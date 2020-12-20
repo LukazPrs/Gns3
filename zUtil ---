@@ -65,3 +65,9 @@ dd if=Ulinux3Full.iso of=/dev/sdb status=progress
 EDITAR PLYMOUTH
 /ush/share/plymouth/ubuntu-logo ...
  ____________________________________________________________________________________________________
+ 
+ install virtualbox: cent os dependencias - [ https://forums.virtualbox.org/viewtopic.php?f=3&t=88614 ]
+ 
+ sudo dnf install elfutils-libelf-devel
+ sudo /sbin/vboxconfig
+
