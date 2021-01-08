@@ -289,7 +289,8 @@ nano demo-openrc
     openstack token issue   [validade token]
 
 
-
+### GLANCE
+ Install Openstack ussuri Image Service Glance
 
 
 
