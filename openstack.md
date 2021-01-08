@@ -290,7 +290,146 @@ nano demo-openrc
 
 
 ### GLANCE
+
+### GLANCE
  Install Openstack ussuri Image Service Glance
+#### usuario: stack
+
+    source admin-openrc
+    env | grep OS
+    openstack user list
+    openstack role list
+    openstack project list
+    openstack service list [somente keystone na lista]
+
+mysql -uroot -P
+
+    CREATE DATABASE glance;
+    GRANT ALL PRIVILEGES ON glance.*  TO 'glance'@'localhost' IDENTIFIED BY 'glanceDBPass';
+    GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY 'glanceDBPass';
+    flush privileges;
+    exit
+
+[criar projeto/servico glance]
+openstack user create --domain default --project service --password glancePass glance
+
+openstack role add --project service --user glance admin
+
+openstack service create --name glance --description "TheSkillPedia openstack image" image
+
+--
+openstack endpoint create --region RegionOne image public http://controller:9292
+openstack endpoint create --region RegionOne image internal http://controller:9292
+openstack endpoint create --region RegionOne image admin http://controller:9292
+exit
+## usuario: root
+
+    dnf --enablerepo=centos-openstack-ussuri, PowerTools -y install openstack-glace wget
+
+---
+#### [editar arquivo ]
+
+> nano /etc/glance/glance-api.conf
+
+[colocar em [default]]
+
+    bind_host = 0.0.0.0
+
+[colocar em [glance_store]]
+
+    stores = file,http
+    default_store = file
+    filesystem_store_datadir = /var/lib/glance/images/
+
+[colocar em [database]]
+
+    connection = mysql+pymysql://glance:glanceDBPass@controller/glance
+
+--
+
+[colocar em [keystone_authtoken]]
+
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = Default
+    user_domain_name = Default
+    project_name = service
+    username = glance
+    password = glancePass
+
+[colocar em[paste_deploy]]
+
+    flavor = keystone
+
+--
+chmod 640 /etc/glance/glance-api.conf
+chown root:glance /etc/glance/glance-api.conf
+
+su -s /bin/bash glance -c "glance-manage db_sync"
+
+systemctl enable --now openstack-glance-api
+setsebool -P glance_api_can_network on
+
+[criar aquivo glanceapi.te]
+
+>    nano glanceapi.te
+
+   module glanceapi 1.0;
+
+require {
+	type glance_api_t;
+        type httpd_config_t;
+        type iscsid_exec_t;
+        class dir search;
+        class file { getattr open read };
+}
+
+#============= glance_api_t =====
+allow glance_api_t httpd_config_t:dir search;
+allow glance_api_t iscsid_exec_t:file { getattr open read };
+
+checkmodule -m -M -o glanceapi.mod glanceapi.te
+semodule_package --outfile glanceapi.pp --module glanceapi.mod
+semodule -i glanceapi.pp
+
+systemctl enable openstack-glance-api
+systemctl start openstack-glance-api
+systemctl status openstack-glance-api
+
+firewall-cmd --permanent --add-port{9191,9292}/tcp
+firewall-cmd --reload
+
+### usuario: stack
+
+    su - stack
+    source admin-openrc
+    [download image]
+    wget http://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
+
+[adicionar imagem ao openstack]
+
+    openstack image create "cirros" --file cirros-0.5.1-x86_64-disk.img disk-format raw --container-format bare --public
+
+> openstack image list
+---
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
