@@ -150,7 +150,161 @@ MUDE PARA MAQUINA **STORAGE**
 
 ----
 # keystone
+
 Openstack ussuri Keystone CentOS 8
+
+### ~> controller
+
+   echo "stack ALL=(ALL)	NOPASSWD: ALL" > /etc/sudoers.d/stack
+
+	mysql -uroot -p
+		CREATE DATABASE keystone;
+		GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'keystoneDBPass';
+		GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'keystoneDBPass';
+		exit
+
+dnf -y install openstack-keystone httpd
+dnf -y install python3-mod_wsgi
+
+#### nano /etc/keystone/keystone.conf
+[descomente e edite]
+
+    memcache_servers = controller:11211
+[adicione a linha no bloco **[database]** ]
+
+    connection = mysql+pymysql://keystone:keystoneDBPass@controller/keystone
+
+[descomente]
+
+    provider = fernet
+
+
+#### su -s /bin/sh -c "keystone-manage db_symc" keystone
+
+    mysql -uroot -p
+    	show databases;
+    	use keystone;
+    	show tables;
+    	exit
+--
+
+    keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+    keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+
+--
+
+    keystone-manage bootstrap --bootstrap-password adminPass \
+    	--bootstrap-admin-url http://controller:5000/v3/ \
+    	--bootstrap-internal-url http://controller/v3/ \
+    	--bootstrap-region-id RegionOne
+
+--
+
+    setsebool -P httpd_use_openstack on
+    setsebool -P httpd_can_network_connect on
+    setsebool -P httpd_can_network_connect_db on
+    firewall-cmd --add-port=5000/tcp --permanent
+    firewall-cmd --reload
+
+[edite httpd.conf | linha SeverName www.example.com:80]
+
+    nano /etc/httpd/conf/httpd.conf
+	    ServerName controller
+--
+
+    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd.conf.d/
+    systemctl enable httpd.service
+    systemctl start httpd.service
+    systemctl status httpd.service
+
+[user stack]
+su - stack
+
+    export OS_USERNAME=admin
+    export OS_PASSWORD=adminPass
+    export OS_PROJECT_NAME=admin
+    export OS_USER_DOMAIN_NAME=Default
+    export OS_PROJECT_DOMAIN_NAME=Default
+    export OS_AUTH_URL=http://controller/v3
+    export OS_IDENTITY_API_VERSION=3
+
+
+    sudo dnf -y install python3-openstackclient mod_ssl ~~python3-mod_wsgi~~ python3-oauth2client
+    sudo firewall-cmd --add-service={mysql,memcache} --permanent
+    sudo firewall-cmd --add-port=5672/tcp --permanent
+
+--
+
+    openstack domain create --description "an example domain" example
+    
+    openstack project create --domain deafult --description "service project" service
+    
+    openstack project list
+    
+    openstack project create --domain default --description "Demo TheSkillPedia project" TheSkillPedia
+    
+    openstack user create --domain default --password demoPass demo
+    
+    openstack role create myrole
+    openstack role add --project TheSkillPedia --user demo myrole
+    openstack role add --project TheSkillPedia --user demo member
+
+    unset OS_AUTH_URL OS_PASSWORD
+
+    openstack --os-auth-url http://controller:5000/v3 \ 
+    	--os-project-domain-name Default --os-user-domain-name Default  \
+    	--os-project-name admin --os-username admin token issue
+
+    oénstack --os-auth-url http://controller:5000/v3  /
+    	--os-project-domain-name Default --os-user-domain-name Default  \
+    	--os-project-name TheSkillPedia --os-username demo token issue
+
+#### [criar arquivo admin-openrc]
+
+    nano admin-openrc
+	    export OS_USERNAME=admin
+	    export OS_PASSWORD=adminPass
+	    export OS_PROJECT_NAME=admin
+	    export OS_USER_DOMAIN_NAME=Default
+	    export OS_PROJECT_DOMAIN_NAME=Default
+	    export OS_AUTH_URL=http://controller:5000/v3
+	    export OS_IDENTITY_API_VERSION=3
+	    export OS_IMAGE_API_VERSION=2
+
+#### [criar arq demo-openrc]
+nano demo-openrc
+```
+    export OS_USERNAME=demo
+    export OS_PASSWORD=demoPass
+    export OS_PROJECT_NAME=TheSkillPedia
+    export OS_USER_DOMAIN_NAME=Default
+    export OS_PROJECT_DOMAIN_NAME=Default
+    export OS_AUTH_URL=http://controller:5000/v3
+    export OS_IDENTITY_API_VERSION=3
+    export OS_IMAGE_API_VERSION=2
+```
+--
+
+    source admin-openrc
+    openstack token issue   [validade token]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
