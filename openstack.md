@@ -419,6 +419,292 @@ firewall-cmd --reload
 # neutron
 Openstack Ussuri and Victoria Neutron Service
 
+### user: stack
+su - stack
+source  admin-openrc
+
+openstack catalog list **[nova(compute),keystone(identity),glance(img),placement(placement)]**
+
+
+### user: root
+mysql -uroot -p
+
+    CREATE DATABASE neutron;
+    GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY 'neutronDBPass';
+    GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'neutronDBPass';
+    flush privileges;
+    exit
+
+### user: stack
+su - stack
+source  admin-openrc
+
+[criar usuario neutron no openstack]
+
+    openstack user create --domain default --projet service --password neutronUserPass neutron
+
+[adc role admin]
+
+    openstack role add --project service --user neutron admin
+
+[serviço neutron, tipo network]
+
+    openstack service create --name neutron --description "TheSkillPedia openstack networking" network
+
+[criar endpoint para a network criada: [public,internal,admin]]
+
+    oṕenstack endpoint create --region RegionOne network public http://controller:9696
+    oṕenstack endpoint create --region RegionOne network internal http://controller:9696
+    oṕenstack endpoint create --region RegionOne network admin http://controller:9696
+
+
+### user: root
+
+    dnf -y install openstack-neutron openstack-neutron-ml2 openstack-neutron-openvswitch
+    
+    mv /etc/neutron/neutron.conf /etc/neutron/neutron.conf.org
+
+[editar/criar arquivo neutron.conf]
+#### nano /etc/neutron/neutron.conf
+
+    [DEFAULT]
+    core_plugin = ml2
+    service_plugins = router
+    auth_strategy = keystone
+    state_path = /var/lib/neutron
+    dhcp_agent_notification = True
+    allow_overlapping_ips = True
+    notify_nova_on_port_status_changes = True
+    notify_nova_on_port_data_changes = True
+    
+    transport_url = rabbit://openstack:rabbitPass@controller
+    
+    [agent]
+    root_helper = "sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf"
+    
+    # keystone auth info
+    [keystone_authtoken]
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = deafult
+    user_domain_name = default
+    project_name = service
+    username = neutron
+    password = neutronUserPass
+    
+    [database]
+    connection = mysql+pymysql://neutron:neutronDBPass@controller/neutron
+    
+    #nova auth info
+    [nova]
+    auth_url = http://controller:5000
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = deafult
+    region_name = RegionOne
+    project_name = service
+    username = nova
+    password = novaPass
+    
+    [oslo_concurrency]
+    lock_path = /var/lib/neutron/tmp
+
+--
+
+    chmod 640 /etc/neutron/neutron.conf
+    chgrp neutron /etc/neutron/neutron.conf
+
+[edit arq l3_agent.ini (adicionar a linha em [default])]
+#### nano /etc/neutron/l3_agent.ini
+
+> interface_driver = openvswitch
+
+[edit arq dhcp_agent.ini (adicionar as linhas em [default])]
+#### nano /etc/neutron/dhcp_agent.ini
+
+    interface_driver = openvswitch
+    dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
+    enable_isolated_metadata = true
+
+--
+[edit arq metadata_agent.ini 
+#### nano /etc/neutron/metadata_agent.ini
+EM DEFAULT:
+
+    nova_metadata_host = controller
+    # specify any secret key you like
+    metadata_proxy_shared_secret = neutronMetaPass
+
+[linha:212] - DESCOMENTAR memcahe_servers = localhost:11211  
+
+    memcahe_servers = controller:11211 
+
+--
+[adicionar no final do arquivo]
+
+> nano /etc/neutron/plugins/ml2/ml2_conf.ini
+
+    [ml2]
+    type_drivers = flat,vlan,gre,vxlan
+    tenant_network_types =
+    mechanism_drivers = openvswitch
+    extension_drivers = port_security
+--
+[adicionar no final do arquivo]
+
+> nano /etc/neutron/plugins/ml2/openvswitch_agent.ini
+
+    [securitygroup]
+    firewall_driver = openvswitch
+    enable_security_group = true
+    enable_ipset = true
+---
+NOVA - ***~~NAO INSTALADO~~***
+---
+[edit nova.conf]
+
+> nano /etc/nova/nova.conf
+
+#### EM [DEFAULT]
+    my_ip = 10.0.0.11
+    state_path = /var/lib/nova
+    enabled_apis = osapi_compute,metadata
+    log_dir = /var/log/nova
+    transport_url = rabbit://openstack:rabbitPass@controller
+    use_neutron = True
+    linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+    firewall_driver = nova.virt.firewall.NoopFirewallDriver
+    vif_plugging_is_fatal = True
+    vif_plugging_timeout = 300
+
+#### EM [NEUTRON]
+
+    auth_url = http://controller:5000
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    region_name = RegionOne
+    project_name = service
+    username = neutron
+    password = neutronUserPass
+    service_metadata_proxy = True
+    metadata_proxy_shared_secret = neutronMetaPass
+
+--
+
+    dnf install openstack-selinux
+    
+    setsebool -P neutron_can_network on
+    setsebool -P haproxy_connect_any on
+    setsebool -P daemons_enable_cluster_mode on
+
+[criar arq]
+
+> nano ovsofctl.te
+
+    module ovsofctl 1.0;
+    
+    require {
+    	type neutron_t;
+            type neutron_exec_t;
+            type neutron_t;
+            type dnsmasq_t;
+            class file execute_no_trans;
+            class capability { dac_override sys_rawio };
+    }
+    
+    allow neutron_t self:capability { dac_override sys_rawio };
+    allow neutron_t neutron_exec_t:file execute_no_trans;
+    
+    allow dnsmasq_t self:capability dac_override;
+
+checkmodule -m -M -o ovsofctl.mod ovsogctl.te   **[checar erro no arq]**
+semodule_package --outfile ovsofctl.pp --module ovsofctl.mod
+semodule -i ovsofctl.pp
+
+firewall-cmd --add-port=9696/tcp --permanent
+firewall-cmd --reload
+
+systeamctl enable --now openvswitch
+ovs-vsctl add-br br-int
+
+    ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+    su -s /bin/bash neutron -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugin.ini upgrade head"
+    
+    for service in server dhcp-agent l3-agent metadata-agent openvswitch-agent; do systemctl enable --now neutron-$service done
+---
+### PROBLEMA NO MODULO NOVA - 
+
+    systemctl restart openstack-nova-api openstack-nova-compute
+    systemctl status openstack-nova-compute
+
+modulo openstack-nova-compute nao operando
+---
+### user: stack
+
+    su - stack
+    source admin-openrc
+    
+    openstack network agent list   [min video:11:09]
+
+### user: root
+ovs-vsctl add-br br-enp0s9
+ovs-vsctl add-port br-enp0s9 enp0s9
+
+--
+[editar arq, adicionar no final]
+
+> vi /etc/neutron/plugins/ml2/ml2_conf.ini
+
+    [ml2_type_flat]
+    flat_networks = physnet1
+
+[editar arq, adicionar no final]
+
+> nano /etc/neutron/plugins/ml2/openvswitch_agent.ini
+
+    [ovs]
+    bridge_mappings = physnet1:br-enp0s9
+
+--
+
+    systemctl restart neutron-openvswitch-agent
+
+### user: stack
+
+    source admin-openrc
+    projectID=$ (openstack project list | grep service | awk '{print $2}')
+    
+--
+
+    openstack network create --project $projectID \ --share --provider-network-type flat --provider-physical-network physnet1 sharednet1
+
+--
+#### criar rede openstack
+openstack subnet create subnet1 --network sharednet1 \
+    --project $projectID --subnet-range 10.0.0.0/24 \
+    --allocation-pool start=10.0.0.200,end=10.0.0.254 \
+    --gateway 10.0.0.1 --dns-nameserver 10.0.0.10
+
+    openstack network list
+    openstack subnet list
+
+---
+---
+## NOVA ON CONTROLLER
+Openstack Nova on Controller and Compute Node
+
+
+
+
+
+
+
+
+
+
 
 
 
