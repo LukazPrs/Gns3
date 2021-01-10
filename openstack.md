@@ -694,7 +694,183 @@ openstack subnet create subnet1 --network sharednet1 \
 ---
 ---
 ## NOVA ON CONTROLLER
+
+## NOVA ON CONTROLLER
 Openstack Nova on Controller and Compute Node
+
+### user: stack
+source admin-openrc
+openstack service list   [keystone e glance]
+
+##### mysql -uroot -p
+
+    CREATE DATABASE nova;
+    CREATE DATABASE nova_api;
+    CREATE DATABASE nova_cell0;
+    CREATE DATABASE placement;
+    
+    GRANT ALL PRIVILEGES ON nova_api.* TO 'nova_api'@'localhost' IDENTIFIED BY 'novaDBPass';
+    GRANT ALL PRIVILEGES ON nova_api.* TO 'nova_api'@'%' IDENTIFIED BY 'novaDBPass';
+    
+    GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY 'novaDBPass';
+    GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'novaDBPass';
+    
+    GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY 'novaDBPass';
+    GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY 'novaDBPass';  
+
+    GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'localhost' IDENTIFIED BY 'placementDBPass';
+    GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'%' IDENTIFIED BY 'placementDBPass';      
+     
+    flush privileges;
+    exit
+
+
+[criar user:nova]
+openstack user create --domain default --project service --password novaPass nova
+openstack role add --project service --user nova admin
+
+openstack user create --domain default --project service --password placementPass placement
+openstack role add --project service --user placement admin
+
+openstack service create --name nova --description "TheSkillPedia openstack compute" compute
+openstack service create --name placement --description "TheSkillPedia placement api" placement
+
+openstack endpoint create --region RegionOne compute public http://controller8774/v2.1/%\\(tenant_id\\)s
+openstack endpoint create --region RegionOne compute internal http://controller8774/v2.1/%\\(tenant_id\\)s
+openstack endpoint create --region RegionOne compute admin http://controller8774/v2.1/%\\(tenant_id\\)s
+
+openstack endpoint create --region RegionOne placement public http://controller:8778
+openstack endpoint create --region RegionOne placement internal http://controller:8778
+openstack endpoint create --region RegionOne placement admin http://controller:8778
+
+### user: root
+dnf -y installcopenstack-nova openstack-placement-api
+ou
+dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova openstack-placement-api
+
+[editar arq nova.conf]
+> nano /etc/nova/nova.conf
+
+#### EM [DEFAULT]
+    [DEFAULT]
+    my_ip = 10.0.0.11
+    state_path = /var/lib/nova
+    enabled_apis = osapi_compute,metadata
+    log_dir = /var/log/nova
+    transport_url = rabbit://openstack:rabbitPass@controller
+    use_neutron = True
+    firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
+#### EM [API] - descomente: auth_strategy=keystone
+
+    auth_strategy=keystone
+
+#### EM [API_DATABASE]
+
+    connection = mysql+pymysql://nova:novaDBPass@controller/nova_api
+
+#### EM [database]
+
+    connection = mysql+pymysql://nova:novaDBPass@controller/nova
+
+#### EM [glance]
+
+    api_servers = http://controller:9292
+
+#### EM [keystone_authtoken]
+
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = deafult
+    user_domain_name = default
+    project_name = service
+    username = nova
+    password = novaPass
+
+#### EM [oslo_concurrency] descomente:
+
+    lock_path=/var/lib/nova/tmp
+
+#### EM [placement]
+
+    auth_url = http://controller:5000
+    region_name = RegionOne
+    project_domain_name = deafult
+    project_name = service
+    auth_type = password
+    user_domain_name = Default
+    username = placement
+    password = placementPass
+
+#### EM [scheduler]
+
+    discover_hosts_in_cells_interval=300
+
+#### EM [vnc]
+
+    enabled = true
+    server_listen = $my_ip
+    server_proxyclient_address = $my_ip
+
+#### EM [wsgi]
+
+    api_paste_config = /etc/nova/api-paste.ini
+
+--
+
+    chmod 640 /etc/nova/nova.conf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
