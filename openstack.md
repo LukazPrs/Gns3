@@ -910,7 +910,7 @@ openstack service list   [keystone e glance]
 
     dnf install openstack-selinux
     
-    semanage port -a -t http_port -p tcp 8778
+    semanage port -a -t http_port_t -p tcp 8778
     
     firewall-cmd --permanent --add-port={6080,6081,6082,8774,8775,8778}/tcp
     firewall-cmd --reload
