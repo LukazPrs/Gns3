@@ -915,11 +915,23 @@ openstack service list   [keystone e glance]
     firewall-cmd --permanent --add-port={6080,6081,6082,8774,8775,8778}/tcp
     firewall-cmd --reload
     
-    su -s /bind/bash placement -c "placement-manage db sync"
+    su -s /bin/bash placement -c "placement-manage db sync"
 
 ### verificar comando (l ou 1)
 
+    su -s /bin/bash placement -c "placement-manage db sync"
+    
+    su -s /bin/bash nova -c "nova-manage api_db sync"  [erro: Access denied for user 'nova'@'%' to database 'nova_api'"]
+    
+    su -s /bin/bash nova -c "nova-manage cell_v2 map_cell0"
+    
+    su -s /bin/bash nova -c "nova-manage db sync"  [warnings]
+   
+    
     su -s /bind/bash nova -c "nova-manage cell_v2 create_cell --name celll"
+    
+    
+    
 
     systemctl restart httpd
     
