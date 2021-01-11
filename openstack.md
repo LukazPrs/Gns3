@@ -866,6 +866,8 @@ openstack service list   [keystone e glance]
 > nano /etc/httpd/conf.d/00-placement-api.conf
 
 
+–
+
 Listen 8778
 
 <VirtualHost *:8778>
@@ -900,6 +902,8 @@ Alias /placement-api /usr/bin/placement-api
   WSGIApplicationGroup %{GLOBAL}
   WSGIPassAuthorization On
 </Location>
+
+–
 
 
 --
