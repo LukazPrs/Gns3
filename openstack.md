@@ -864,7 +864,6 @@ openstack service list   [keystone e glance]
 ### [editar arquivo 00-placement-api.conf]     *VERIF IDENTAÇÃO*
 
 > nano /etc/httpd/conf.d/00-placement-api.conf
-
 Listen 8778
 
 <VirtualHost *:8778>
