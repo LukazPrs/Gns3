@@ -237,7 +237,7 @@ su - stack
 
     openstack domain create --description "an example domain" example
     
-    openstack project create --domain deafult --description "service project" service
+    openstack project create --domain default --description "service project" service
     
     openstack project list
     
@@ -502,7 +502,7 @@ source  admin-openrc
     auth_url = http://controller:5000
     auth_type = password
     project_domain_name = default
-    user_domain_name = deafult
+    user_domain_name = default
     region_name = RegionOne
     project_name = service
     username = nova
@@ -787,7 +787,7 @@ openstack service list   [keystone e glance]
     auth_url = http://controller:5000
     memcached_servers = controller:11211
     auth_type = password
-    project_domain_name = deafult
+    project_domain_name = default
     user_domain_name = default
     project_name = service
     username = nova
@@ -801,7 +801,7 @@ openstack service list   [keystone e glance]
 
     auth_url = http://controller:5000
     region_name = RegionOne
-    project_domain_name = deafult
+    project_domain_name = default
     project_name = service
     auth_type = password
     user_domain_name = Default
