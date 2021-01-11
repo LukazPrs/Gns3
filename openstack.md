@@ -846,7 +846,7 @@ openstack service list   [keystone e glance]
     auth_url = http://controller:5000
     memcached_servers = controller:11211
     auth_type = password
-    project_domain_name = Deafult
+    project_domain_name = Default
     user_domain_name = Default
     project_name = service
     username = placement
