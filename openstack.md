@@ -959,7 +959,7 @@ openstack service list   [keystone e glance]
 
     my_ip = 10.0.0.31
     state_path = /var/lib/nova
-    enable_apis = osapi_compute,metadata
+    enabled_apis = osapi_compute,metadata
     log_dir = /var/log/nova
     transport_url = rabbit://openstack:rabbitPass@controler
     use_neutron = true
