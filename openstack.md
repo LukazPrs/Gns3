@@ -829,6 +829,8 @@ openstack service list   [keystone e glance]
 
 --
 ### [editar arquivo placement.conf]
+
+### nano /etc/placement/placement.conf
 #### EM [DEFAULT]
 
     debug = false
