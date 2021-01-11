@@ -825,7 +825,7 @@ openstack service list   [keystone e glance]
 --
 
     chmod 640 /etc/nova/nova.conf
-    chgrp nova /etc/nova.nova.conf
+    chgrp nova /etc/nova/nova.conf
 
 --
 ### [editar arquivo placement.conf]
