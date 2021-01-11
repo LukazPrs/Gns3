@@ -821,6 +821,121 @@ dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova op
 --
 
     chmod 640 /etc/nova/nova.conf
+    chgrp nova /etc/nova.nova.conf
+
+--
+### [editar arquivo placement.conf]
+#### EM [DEFAULT]
+
+    debug = false
+#### EM [api] descomente:
+
+    auth_strategy = keystone
+
+#### EM [placement_database]
+
+    connection = mysql+pymysql://placement:placementDBPass@controller/placement
+
+#### EM [keystone_authtoken]
+
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = Deafult
+    user_domain_name = Default
+    project_name = service
+    username = placement
+    password = placementPass
+
+--
+
+    chmod 640 /etc/placement/placement.conf
+    chgrp placement /etc/placement/placement.conf
+   
+~~chown placement. /var/log/placement/placement-api.log~~ [dir nao encontrado]
+
+### [editar arquivo 00-placement-api.conf]     *VERIF IDENTAÇÃO*
+
+> nano /etc/httpd/conf.d/00-placement-api.conf
+
+    Listen 8778  
+      
+    <VirtualHost *:8778="">  
+        WSGIProcessGroup placement-api  
+        WSGIApplicationGroup %{GLOBAL}  
+        WSGIPassAuthorization On  
+        WSGIDaemonProcess placement-api processes=3 threads=1 user=placement group=placement  
+        WSGIScriptAlias /  /usr/bin/placement-api  
+        <Directory /usr/bin>
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+        </Directory>
+            <IfVersion >= 2.4>
+                ErrorLogFormat "%M"
+            </IfVersion>
+        ErrorLog /var/log/placement/placement-api.log  
+        #SSLEngine On  
+        #SSLCertificateFile ...  
+        #SSLCertificateKeyFile ...  
+    </VirtualHost>  
+      
+    Alias /placement-api /usr/bin/placement-api  
+    <Location /placement-api>  
+        SetHandler wsgi-script  
+        Options +ExecCGI  
+        WSGIProcessGroup placement-api  
+        WSGIApplicationGroup %{GLOBAL}  
+       WSGIPassAuthorization On  
+    </Location>
+
+--
+
+    dnf install openstack-selinux
+    
+    semanage port -a -t http_port -p tcp 8778
+    
+    firewall-cmd --permanent --add-port={6080,6081,6082,8774,8775,8778}/tcp
+    firewall-cmd --reload
+    
+    su -s /bind/bash placement -c "placement-manage db sync"
+
+### verificar comando (l ou 1)
+
+    su -s /bind/bash nova -c "nova-manage cell_v2 create_cell --name celll"
+
+    systemctl restart httpd
+    
+    for service in api conductor scheduler novncproxy; do systemctl enable --now openstack-nova-$service done
+
+### user: stack
+
+    su - stack
+    source admin-openr
+
+openstack service list   -[nova,keystone,glance,placement]
+
+### MUDAR PARA MAQUINA: COMPUTE  23:
+yum -f install openstack-nova-compute openstack-selinux
+ou
+dnf --enablerepos=centos-openstack-ussuri,PoweTools -y openstack-nova-compute openstack-selinux
+
+### [editar arq nova.conf]
+
+> nano /etc/nova/nova.conf
+
+#### EM [DEFAULT]
+25:48 ...
+
+
+
+
+
 
 
 
