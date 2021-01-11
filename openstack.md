@@ -866,44 +866,44 @@ openstack service list   [keystone e glance]
 > nano /etc/httpd/conf.d/00-placement-api.conf
 
 
-–
+--
+    
+    Listen 8778
+    
+    <VirtualHost *:8778>
+      WSGIProcessGroup placement-api
+      WSGIApplicationGroup %{GLOBAL}
+      WSGIPassAuthorization On
+      WSGIDaemonProcess placement-api processes=3 threads=1 user=placement group=placement
+      WSGIScriptAlias / /usr/bin/placement-api
+      <Directory /usr/bin>
+      <IfVersion >= 2.4>
+         Require all granted
+      </IfVersion>
+      <IfVersion < 2.4>
+         Order allow,deny
+         Allow from all
+      </IfVersion>
+      </Directory>
+      <IfVersion >= 2.4>
+        ErrorLogFormat "%M"
+      </IfVersion>
+      ErrorLog /var/log/placement/placement-api.log
+      #SSLEngine On
+      #SSLCertificateFile ...
+      #SSLCertificateKeyFile ...
+    </VirtualHost>
+    
+    Alias /placement-api /usr/bin/placement-api
+    <Location /placement-api>
+      SetHandler wsgi-script
+      Options +ExecCGI
+      WSGIProcessGroup placement-api
+      WSGIApplicationGroup %{GLOBAL}
+      WSGIPassAuthorization On
+    </Location>
 
-Listen 8778
-
-<VirtualHost *:8778>
-  WSGIProcessGroup placement-api
-  WSGIApplicationGroup %{GLOBAL}
-  WSGIPassAuthorization On
-  WSGIDaemonProcess placement-api processes=3 threads=1 user=placement group=placement
-  WSGIScriptAlias / /usr/bin/placement-api
-  <Directory /usr/bin>
-  <IfVersion >= 2.4>
-     Require all granted
-  </IfVersion>
-  <IfVersion < 2.4>
-     Order allow,deny
-     Allow from all
-  </IfVersion>
-  </Directory>
-  <IfVersion >= 2.4>
-    ErrorLogFormat "%M"
-  </IfVersion>
-  ErrorLog /var/log/placement/placement-api.log
-  #SSLEngine On
-  #SSLCertificateFile ...
-  #SSLCertificateKeyFile ...
-</VirtualHost>
-
-Alias /placement-api /usr/bin/placement-api
-<Location /placement-api>
-  SetHandler wsgi-script
-  Options +ExecCGI
-  WSGIProcessGroup placement-api
-  WSGIApplicationGroup %{GLOBAL}
-  WSGIPassAuthorization On
-</Location>
-
-–
+--
 
 
 --
