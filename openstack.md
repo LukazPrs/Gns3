@@ -928,9 +928,7 @@ openstack service list   [keystone e glance]
     su -s /bin/bash nova -c "nova-manage db sync"  [warnings]
    
     
-    su -s /bind/bash nova -c "nova-manage cell_v2 create_cell --name celll"
-    
-    
+    su -s /bin/bash nova -c "nova-manage cell_v2 create_cell --name celll" [warning]
     
 
     systemctl restart httpd
@@ -946,6 +944,9 @@ openstack service list   [keystone e glance]
 
 ### MUDAR PARA MAQUINA: COMPUTE  23:
 ### user: root
+    dnf -y install centos-release-openstack-ussuri
+    dnf -y install centos-release-openstack-victoria
+    
     yum -f install openstack-nova-compute openstack-selinux
     ou
     dnf --enablerepos=centos-openstack-ussuri,PoweTools -y openstack-nova-compute openstack-selinux
