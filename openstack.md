@@ -726,29 +726,33 @@ openstack service list   [keystone e glance]
 
 
 [criar user:nova]
-openstack user create --domain default --project service --password novaPass nova
-openstack role add --project service --user nova admin
 
-openstack user create --domain default --project service --password placementPass placement
-openstack role add --project service --user placement admin
+    openstack user create --domain default --project service --password novaPass nova
+    openstack role add --project service --user nova admin
 
-openstack service create --name nova --description "TheSkillPedia openstack compute" compute
-openstack service create --name placement --description "TheSkillPedia placement api" placement
+    openstack user create --domain default --project service --password placementPass placement
+    openstack role add --project service --user placement admin
 
-openstack endpoint create --region RegionOne compute public http://controller8774/v2.1/%\\(tenant_id\\)s
-openstack endpoint create --region RegionOne compute internal http://controller8774/v2.1/%\\(tenant_id\\)s
-openstack endpoint create --region RegionOne compute admin http://controller8774/v2.1/%\\(tenant_id\\)s
+    openstack service create --name nova --description "TheSkillPedia openstack compute" compute
+    openstack service create --name placement --description "TheSkillPedia placement api" placement
 
-openstack endpoint create --region RegionOne placement public http://controller:8778
-openstack endpoint create --region RegionOne placement internal http://controller:8778
-openstack endpoint create --region RegionOne placement admin http://controller:8778
+    openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1/%\(tenant_id\)s
+
+    openstack endpoint create --region RegionOne placement public http://controller:8778
+    openstack endpoint create --region RegionOne placement internal http://controller:8778
+    openstack endpoint create --region RegionOne placement admin http://controller:8778
 
 ### user: root
-dnf -y installcopenstack-nova openstack-placement-api
-ou
-dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova openstack-placement-api
 
-[editar arq nova.conf]
+    dnf -y installcopenstack-nova openstack-placement-api
+    ou
+    dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova openstack-placement-api
+
+--
+
+### [editar arq nova.conf]
 > nano /etc/nova/nova.conf
 
 #### EM [DEFAULT]
@@ -783,7 +787,7 @@ dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova op
     auth_url = http://controller:5000
     memcached_servers = controller:11211
     auth_type = password
-    project_domain_name = default
+    project_domain_name = deafult
     user_domain_name = default
     project_name = service
     username = nova
@@ -797,7 +801,7 @@ dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova op
 
     auth_url = http://controller:5000
     region_name = RegionOne
-    project_domain_name = default
+    project_domain_name = deafult
     project_name = service
     auth_type = password
     user_domain_name = Default
@@ -842,7 +846,7 @@ dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova op
     auth_url = http://controller:5000
     memcached_servers = controller:11211
     auth_type = password
-    project_domain_name = Default
+    project_domain_name = Deafult
     user_domain_name = Default
     project_name = service
     username = placement
@@ -918,19 +922,113 @@ dnf --enablerepo=centos-openstack-ussuri,PowerTools -y installcopenstack-nova op
     su - stack
     source admin-openr
 
-openstack service list   -[nova,keystone,glance,placement]
+    openstack service list   -[nova,keystone,glance,placement]
 
 ### MUDAR PARA MAQUINA: COMPUTE  23:
-yum -f install openstack-nova-compute openstack-selinux
-ou
-dnf --enablerepos=centos-openstack-ussuri,PoweTools -y openstack-nova-compute openstack-selinux
+### user: root
+    yum -f install openstack-nova-compute openstack-selinux
+    ou
+    dnf --enablerepos=centos-openstack-ussuri,PoweTools -y openstack-nova-compute openstack-selinux
 
 ### [editar arq nova.conf]
 
 > nano /etc/nova/nova.conf
 
 #### EM [DEFAULT]
-25:48 ...
+
+    my_ip = 10.0.0.31
+    state_path = /var/lib/nova
+    enable_apis = osapi_compute,metadata
+    log_dir = /var/log/nova
+    transport_url = rabbit://openstack:rabbitPass@controler
+    use_neutron = true
+    firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
+#### EM [api] descomente:
+
+    auth_strategy=keystone
+
+#### EM [glance]
+
+    api_servers = http://controller:9292
+
+#### EM [keystone_authtoken]
+```
+www_authenticate_uri = http://controller:5000
+auth_url = http://controller:5000
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = nova
+password = novaPass
+```
+#### EM [libvirt] descomente: virt_type=kvm  para
+
+    virt_type=qemu
+
+#### EM [oslo_concurrency] descomente
+
+    lock_path=/var/lib/nova/tmp
+
+#### EM [placement]
+```
+auth_url = http://controller:5000
+region_name = RegionOne
+project_domain_name = Default
+project_name = service
+auth_type = password
+user_domain_name = Default
+username = placement
+password = placementPass
+```
+#### EM [vnc]
+
+    enabled = true
+    server_listen = 0.0.0.0
+    server_proxyclient_address = $my_ip
+    novncproxy_base_url = http://controller:6080/vnc_auto.html
+
+#### EM [wsgi]
+
+    api_paste_config = /etc/nova/api-paste.ini
+
+--
+
+    chmod 640 /etc/nova/nova.conf
+    chgrp nova /etc/nova/nova.conf
+    semanage port -a -t http_port_t -p tcp 8778
+    
+    firewall-cmd --permanent --add-port={6080,6081,6082,8774,8775,8778}/tcp
+    firewall-cmd --reload
+    
+    systemctl enable --now openstack-nova-compute
+    systemctl status openstack-nova-compute [servico ATIVO]
+    
+    systemctl enable libvirtd.service openstack-nova-compute.service
+    systemctl start libvirtd.service openstack-nova-compute.service
+    systemctl startus libvirt.service openstack-nova-compute.service
+
+## CONTROLLER ...
+
+    su -s /bin/bash nova -c "nova-manage cell_v2 discover_hosts"
+
+### user:stack
+
+    su - stack
+    source admin-openrc
+    
+    checar serviços
+    openstack compute service list [nova-compute ON]
+    openstack catalog list [nova,keystone,glance,placement]
+
+### user:root 
+
+    nova-status upgrade check [32;27]
+
+---
+---
 
 
 
