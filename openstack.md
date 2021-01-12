@@ -1,4 +1,5 @@
 
+
 ##openstack ussuri on centos 8 - Configure Prerequisites RabbitMQ, MariaDB ETCD, Memcache and Chrony
 CONTROLLER:
 
@@ -164,9 +165,10 @@ Openstack ussuri Keystone CentOS 8
 		exit
 
 --
-dnf -y install openstack-keystone httpd
 
-dnf -y install python3-mod_wsgi
+    dnf -y install openstack-keystone httpd
+    
+    dnf -y install python3-mod_wsgi
 
 #### nano /etc/keystone/keystone.conf
 [descomente e edite]
@@ -176,12 +178,13 @@ dnf -y install python3-mod_wsgi
 
     connection = mysql+pymysql://keystone:keystoneDBPass@controller/keystone
 
-[descomente]
+
+EM [TOKEN]: DESCOMENTE
 
     provider = fernet
 
 
-#### su -s /bin/sh -c "keystone-manage db_symc" keystone
+#### su -s /bin/sh -c "keystone-manage db_sync" keystone
 
     mysql -uroot -p
     	show databases;
@@ -214,7 +217,7 @@ dnf -y install python3-mod_wsgi
 	    ServerName controller
 --
 
-    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd.conf.d/
+    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
     systemctl enable httpd.service
     systemctl start httpd.service
     systemctl status httpd.service
@@ -227,11 +230,12 @@ su - stack
     export OS_PROJECT_NAME=admin
     export OS_USER_DOMAIN_NAME=Default
     export OS_PROJECT_DOMAIN_NAME=Default
-    export OS_AUTH_URL=http://controller/v3
+    export OS_AUTH_URL=http://controller:5000/v3
     export OS_IDENTITY_API_VERSION=3
 
 
-    sudo dnf -y install python3-openstackclient mod_ssl ~~python3-mod_wsgi~~ python3-oauth2client
+    sudo dnf install python3-openstackclient mod_ssl python3-oauth2client
+    
     sudo firewall-cmd --add-service={mysql,memcache} --permanent
     sudo firewall-cmd --add-port=5672/tcp --permanent
 
@@ -257,7 +261,7 @@ su - stack
     	--os-project-domain-name Default --os-user-domain-name Default  \
     	--os-project-name admin --os-username admin token issue
 
-    oénstack --os-auth-url http://controller:5000/v3  /
+    openstack --os-auth-url http://controller:5000/v3  /
     	--os-project-domain-name Default --os-user-domain-name Default  \
     	--os-project-name TheSkillPedia --os-username demo token issue
 
@@ -949,7 +953,7 @@ openstack service list   [keystone e glance]
     dnf -y install centos-release-openstack-ussuri
     dnf -y install centos-release-openstack-victoria
     
-    yum -f install openstack-nova-compute openstack-selinux
+    yum -y install openstack-nova-compute openstack-selinux
     ou
     dnf --enablerepos=centos-openstack-ussuri,PoweTools -y openstack-nova-compute openstack-selinux
 
@@ -1052,110 +1056,5 @@ password = placementPass
 
 ---
 ---
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
