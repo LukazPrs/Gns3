@@ -163,7 +163,9 @@ Openstack ussuri Keystone CentOS 8
 		GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'keystoneDBPass';
 		exit
 
+--
 dnf -y install openstack-keystone httpd
+
 dnf -y install python3-mod_wsgi
 
 #### nano /etc/keystone/keystone.conf
