@@ -961,7 +961,7 @@ openstack service list   [keystone e glance]
     state_path = /var/lib/nova
     enabled_apis = osapi_compute,metadata
     log_dir = /var/log/nova
-    transport_url = rabbit://openstack:rabbitPass@controler
+    transport_url = rabbit://openstack:rabbitPass@controller
     use_neutron = true
     firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
