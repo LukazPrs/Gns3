@@ -165,6 +165,7 @@ MUDE PARA MAQUINA **STORAGE**
 
 -----------------------------------------------------------------------------------------------------------
 ----
+
 # keystone
 
 Openstack ussuri Keystone CentOS 8
@@ -214,9 +215,10 @@ EM [TOKEN]: DESCOMENTE
 --
 
     keystone-manage bootstrap --bootstrap-password adminPass \
-    	--bootstrap-admin-url http://controller:5000/v3/ \
-    	--bootstrap-internal-url http://controller/v3/ \
-    	--bootstrap-region-id RegionOne
+     --bootstrap-admin-url http://controller:5000/v3/ \
+     --bootstrap-internal-url http://controller:5000/v3/ \
+     --bootstrap-public-url http://controller:5000/v3/ \
+     --bootstrap-region-id RegionOne
 
 --
 
@@ -226,9 +228,11 @@ EM [TOKEN]: DESCOMENTE
     firewall-cmd --add-port=5000/tcp --permanent
     firewall-cmd --reload
 
-[edite httpd.conf | linha SeverName www.example.com:80]
+#### [edite httpd.conf | linha SeverName www.example.com:80]
 
-    nano /etc/httpd/conf/httpd.conf
+>    nano /etc/httpd/conf/httpd.conf
+
+    
 	    ServerName controller
 --
 
@@ -256,13 +260,13 @@ su - stack
 
 --
 
-    openstack domain create --description "an example domain" example
+    openstack domain create --description "An Example Domain" example
     
-    openstack project create --domain default --description "service project" service
+    openstack project create --domain default --description "Service Project" service
     
     openstack project list
     
-    openstack project create --domain default --description "Demo TheSkillPedia project" TheSkillPedia
+    openstack project create --domain default --description "Demo TheSkillPedia Project" TheSkillPedia
     
     openstack user create --domain default --password demoPass demo
     
@@ -275,22 +279,23 @@ su - stack
     openstack --os-auth-url http://controller:5000/v3 \ 
     	--os-project-domain-name Default --os-user-domain-name Default  \
     	--os-project-name admin --os-username admin token issue
-
+    
     openstack --os-auth-url http://controller:5000/v3  /
     	--os-project-domain-name Default --os-user-domain-name Default  \
     	--os-project-name TheSkillPedia --os-username demo token issue
 
 #### [criar arquivo admin-openrc]
 
-    nano admin-openrc
-	    export OS_USERNAME=admin
-	    export OS_PASSWORD=adminPass
-	    export OS_PROJECT_NAME=admin
-	    export OS_USER_DOMAIN_NAME=Default
-	    export OS_PROJECT_DOMAIN_NAME=Default
-	    export OS_AUTH_URL=http://controller:5000/v3
-	    export OS_IDENTITY_API_VERSION=3
-	    export OS_IMAGE_API_VERSION=2
+> nano admin-openrc
+
+    export OS_PROJECT_DOMAIN_NAME=Default
+    export OS_USER_DOMAIN_NAME=Default
+    export OS_PROJECT_NAME=admin
+    export OS_USERNAME=admin
+    export OS_PASSWORD=adminPass
+    export OS_AUTH_URL=http://controller:5000/v3
+    export OS_IDENTITY_API_VERSION=3
+    export OS_IMAGE_API_VERSION=2
 
 #### [criar arq demo-openrc]
 nano demo-openrc
@@ -308,12 +313,6 @@ nano demo-openrc
 
     source admin-openrc
     openstack token issue   [validade token]
-
-
-
-
-
-
 
 
 ----------------------------------------------------------------------------------------------------
