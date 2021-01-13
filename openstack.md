@@ -1,6 +1,6 @@
 
 
-##openstack ussuri on centos 8 - Configure Prerequisites RabbitMQ, MariaDB ETCD, Memcache and Chrony
+## openstack ussuri on centos 8 - Configure Prerequisites RabbitMQ, MariaDB ETCD, Memcache and Chrony
 CONTROLLER:
 
     dnf install https://rdoproject.org/repos/rdo-release.el8.rpm
@@ -9,16 +9,17 @@ CONTROLLER:
 
     dnf -y install mariadb mariadb-server python3-PyMySQL
 
-##### [edit file]    **vi /etc/my.cnf.d/openstack.cnf**
+##### [criar arq]    **vi /etc/my.cnf.d/openstack.cnf**
 
-[mysqld]
-bind-address = 10.0.0.11
-default-storage-engine = innodb
-innodb_file_per_table = on
-max_connections = 4096
-collation-server = utf8_general_ci
-character-set-server = utf8
+    [mysqld]
+    bind-address = 10.0.0.11
+    default-storage-engine = innodb
+    innodb_file_per_table = on
+    max_connections = 4096
+    collation-server = utf8_general_ci
+    character-set-server = utf8
 
+--
     systemctl enable mariadb.service
     systemctl start mariadb.service
 
@@ -107,9 +108,13 @@ systemctl status etcd
 
 [entrar no mysql, verificar funcionamento]
 
-    mysql -uroot -p
+> mysql -uroot -p
+
+--
     
-   systemctl status chronyd  [service on]
+       dnf install chrony
+       systemctl status chronyd  [service on]
+
    
 
 ##### nano /etc/chrony.conf [descomente a linha e edite]
@@ -124,31 +129,41 @@ chronyc sources
 ---
 MUDE PARA MAQUINA **COMPUTE**
 
-##### nano /etc/chrony.conf [descomente a linha e edite]
+    dnf install chrony
 
-    pool controller iburst
-#### systemctl restart chronyd
-#### systemctl status chronyd
-
-	 chronyc sources
-	 firewall-cmd --add-service=ntp --permanent
-	 firewall-cmd --reload
-	 chronyc sources
-
-
----
-MUDE PARA MAQUINA **STORAGE**
 ##### nano /etc/chrony.conf [descomente a linha e edite]
 
 	pool controller iburst
 
-#### systemctl restart chronyd
-#### systemctl status chronyd
+--
+
+    sytemctl restart chronyd
+    systemctl status chronyd
 
     firewall-cmd --add-service=ntp --permanent
     firewall-cmd --reload
     chronyc sources
 
+---
+MUDE PARA MAQUINA **STORAGE**
+
+    dnf install chrony
+
+##### nano /etc/chrony.conf [descomente a linha e edite]
+
+	pool controller iburst
+
+--
+
+    sytemctl restart chronyd
+    systemctl status chronyd
+
+    firewall-cmd --add-service=ntp --permanent
+    firewall-cmd --reload
+    chronyc sources
+
+
+-----------------------------------------------------------------------------------------------------------
 ----
 # keystone
 
@@ -295,6 +310,13 @@ nano demo-openrc
     openstack token issue   [validade token]
 
 
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------
 ### GLANCE
 
 ### GLANCE
