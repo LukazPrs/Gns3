@@ -316,7 +316,10 @@ nano demo-openrc
 
 
 ----------------------------------------------------------------------------------------------------
+
+
 ### GLANCE
+
 
 ### GLANCE
  Install Openstack ussuri Image Service Glance
@@ -338,20 +341,28 @@ mysql -uroot -P
     exit
 
 [criar projeto/servico glance]
-openstack user create --domain default --project service --password glancePass glance
 
-openstack role add --project service --user glance admin
-
-openstack service create --name glance --description "TheSkillPedia openstack image" image
+    openstack user create --domain default --project service --password glancePass glance
+    
+    openstack role add --project service --user glance admin
+    
+    openstack service create --name glance --description "TheSkillPedia Openstack Image" image
 
 --
-openstack endpoint create --region RegionOne image public http://controller:9292
-openstack endpoint create --region RegionOne image internal http://controller:9292
-openstack endpoint create --region RegionOne image admin http://controller:9292
-exit
+
+    openstack endpoint create --region RegionOne image public http://controller:9292
+    openstack endpoint create --region RegionOne image internal http://controller:9292
+    openstack endpoint create --region RegionOne image admin http://controller:9292
+    exit
+
 ## usuario: root
 
     dnf --enablerepo=centos-openstack-ussuri, PowerTools -y install openstack-glace wget
+    ou
+    dnf -y install centos-release-openstack-ussuri
+    dnf -y install centos-release-openstack-victoria
+    
+    dnf install openstack-glance wget
 
 ---
 #### [editar arquivo ]
@@ -391,43 +402,50 @@ exit
     flavor = keystone
 
 --
-chmod 640 /etc/glance/glance-api.conf
-chown root:glance /etc/glance/glance-api.conf
 
-su -s /bin/bash glance -c "glance-manage db_sync"
-
-systemctl enable --now openstack-glance-api
-setsebool -P glance_api_can_network on
+    chmod 640 /etc/glance/glance-api.conf
+    chown root:glance /etc/glance/glance-api.conf
+    
+    su -s /bin/bash glance -c "glance-manage db_sync"
+    
+    systemctl enable --now openstack-glance-api
+    setsebool -P glance_api_can_network on
 
 [criar aquivo glanceapi.te]
 
 >    nano glanceapi.te
 
-   module glanceapi 1.0;
+    module glanceapi 1.0;
+    
+    require {
+    	type glance_api_t;
+            type httpd_config_t;
+            type iscsid_exec_t;
+            class dir search;
+            class file { getattr open read };
+    }
+    
+    #============= glance_api_t =====
+    allow glance_api_t httpd_config_t:dir search;
+    allow glance_api_t iscsid_exec_t:file { getattr open read };
 
-require {
-	type glance_api_t;
-        type httpd_config_t;
-        type iscsid_exec_t;
-        class dir search;
-        class file { getattr open read };
-}
+--
 
-#============= glance_api_t =====
-allow glance_api_t httpd_config_t:dir search;
-allow glance_api_t iscsid_exec_t:file { getattr open read };
+    checkmodule -m -M -o glanceapi.mod glanceapi.te
+    
+    semodule_package --outfile glanceapi.pp --module glanceapi.mod
+    
+    [inserir modulo no kernel]
+    semodule -i glanceapi.pp
 
-checkmodule -m -M -o glanceapi.mod glanceapi.te
-semodule_package --outfile glanceapi.pp --module glanceapi.mod
-semodule -i glanceapi.pp
+    systemctl enable openstack-glance-api
+    systemctl start openstack-glance-api
+    systemctl status openstack-glance-api
 
-systemctl enable openstack-glance-api
-systemctl start openstack-glance-api
-systemctl status openstack-glance-api
+    firewall-cmd --permanent --add-port={9191,9292}/tcp
+    firewall-cmd --reload
 
-firewall-cmd --permanent --add-port{9191,9292}/tcp
-firewall-cmd --reload
-
+--
 ### usuario: stack
 
     su - stack
@@ -437,11 +455,15 @@ firewall-cmd --reload
 
 [adicionar imagem ao openstack]
 
-    openstack image create "cirros" --file cirros-0.5.1-x86_64-disk.img disk-format raw --container-format bare --public
+    openstack image create "cirros" --file cirros-0.5.1-x86_64-disk.img --disk-format raw --container-format bare --public
 
 > openstack image list
+
+
 ---
----
+---------------------------- PULADO --------------
+
+
 
 # neutron
 Openstack Ussuri and Victoria Neutron Service
@@ -718,8 +740,17 @@ openstack subnet create subnet1 --network sharednet1 \
     openstack network list
     openstack subnet list
 
+
+
+
+
 ---
----
+--------------------------------------------------------------------------------------
+
+
+
+
+
 ## NOVA ON CONTROLLER
 
 ## NOVA ON CONTROLLER
