@@ -1002,12 +1002,16 @@ openstack service list   [keystone e glance]
 
 ### MUDAR PARA MAQUINA: COMPUTE  23:
 ### user: root
-    dnf -y install centos-release-openstack-ussuri
-    dnf -y install centos-release-openstack-victoria
+    [x]dnf -y install centos-release-openstack-victoria [nao instalar]
     
-    yum -y install openstack-nova-compute openstack-selinux
-    ou
-    dnf --enablerepos=centos-openstack-ussuri,PoweTools -y openstack-nova-compute openstack-selinux
+    dnf -y install centos-release-openstack-ussuri
+
+    sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/CentOS-OpenStack-ussuri.repo
+    
+    dnf --enablerepo=centos-openstack-ussuri -y upgrade
+
+
+    dnf --enablerepos=centos-openstack-ussuri,powetools -y openstack-nova-compute openstack-selinux
 
 ### [editar arq nova.conf]
 
