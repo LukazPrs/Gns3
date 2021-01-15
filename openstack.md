@@ -1135,9 +1135,109 @@ openstack subnet create subnet1 --network sharednet1 \
 
 
 
--------------
+
+
+-------------------------------------------------------------------------------------------------------------------
 -----------
 -------------
+# # Openstack ussuri Dashboard Horizon Installation
+
+### Maquina: controller
+
+su - stack
+source admin-openrc
+openstack service list  [nova,keystone,glance,neutron,placement]
+openstack catalog list
+
+
+### root
+
+    dnf -y install openstack-dashboard
+
+#### editar arquivo [local_settings]
+
+    vi /etc/openstack-dashboard/local_settings
+
+#### linha 39 mude: 
+
+    ALLOWED_HOSTS = ['*', ]
+
+#### linha 94 descomente: 
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': 'controller:11211',
+        },
+    }
+
+#### linha 105 mude: 
+
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+
+#### linha 119, 120 && 123 mude: 
+
+    OPENSTACK_HOST = "controller"
+    OPENSTACK_KEYSTONE_URL = "http://controller:5000/v3"
+     ...
+    TIME_ZONE = "UTC"  [nao editado ainda]
+
+#### ADICIONAR NO FINAL DO ARQ
+
+    WEBROOT = '/dashboard/'
+    LOGIN_URL = '/dashboard/auth/login/'
+    LOGOUT_URL = '/dashboard/auth/logout/'
+    LOGIN_REDIRECT_URL = '/dashboard/'
+    OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+    OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = 'Default'
+    OPENSTACK_API_VERSIONS = {
+    	"identity": 3,
+    	"volume": 3,
+    	"compute": 2,
+    }
+    
+    
+    LOCAL_PATH = '/tmp'
+    
+    OPENSTACK_NEUTRON_NETWORK = {
+    	'enable_auto_allocated_network': True,
+    	'enable_distributed_router': False,
+    	'enable_fip_topology_check': False,
+    	'enable_ha_router': False,
+    	'enable_ipv6': False,
+    	'enable_quotas': True,
+    	'enable_rbac_policy': True,
+    	'enable_router': True,
+    	'default_dns_nameservers': [],
+    	'supported_provider_types': ['*'],
+    	'segmentation_id_range': {},
+    	'extra_provider_types': {},
+    	'supported_vnic_types': ['*'],
+    	'physical_networks': [],
+    }
+
+
+#### editar arquivo openstack-dashboard.conf
+
+    nano /etc/httpd/conf.d/openstack-dashboard.conf
+
+##### ADICIONE:
+```
+WSGIApplicationGroup %{GLOBAL}
+```
+---
+
+    systemctl restart httpd
+    
+    setsebool -P httpd_can_network_connect on
+    
+    firewall-cmd --add-service={http,https} --permanent
+    firewall-cmd --reload
+
+ACESSAR LINK: https://10.0.0.11/dashboard  
+
+
 
 
 
