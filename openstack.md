@@ -1239,7 +1239,50 @@ ACESSAR LINK: https://10.0.0.11/dashboard
 
 
 
+-------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+    find /etc -type f -exec grep ^transport_url {} \;
+
+```
+find /etc -type f -exec grep -l ^transport_url {} \;
+```
+
+
+
+  101  openstack flavor create --public m1.extra_tiny --id auto     --ram 256 --disk 0 --vcpus 1 --rxtx-factor 1
+  102  openstack flavor create --public m1.extra_teste --id auto  --ram 256 --disk 1 --vcpus 1 --rxtx-factor 1
+
+default default] The [neutron] section of your nova configuration file must be configured for authentication with the networking service endpoin
+
+
+
+ERROR neutron.plugins.ml2.managers [req-d82c8745-d7ba-4a9c-983d-2b534e8ea9c9 37aee33ccbd74a2eb6fac13df63e4d23 5e7c0ac972384449b181c610561380be - default default] Failed to bind port 3b816f1f-6b80-43eb-81b0-201f3325727b on host compute for vnic_type normal using segments [{'id': '59a26bb6-9bd7-4464-8e18-0bfe4fd44a84', 'network_type': 'flat', 'physical_network': 'physnet1', 'segmentation_id': None, 'network_id': '3671f690-6a3a-4e65-82cd-495c8701a4de'}]
+
+
+------------------------------------------------------------------------------------------------------------------------
+configurei em nova.conf(compute e controller):
+[neutron]
+auth_url = http://controller:5000
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = neutron
+password = neutronUserPass
+service_metadata_proxy = True
+metadata_proxy_shared_secret = neutronMetaPass
+
+url = http://controller:9696
+
+
+
+----
+descomentei linha em nova.conf(compute e controller):
+compute_driver=libvirt.LibvirtDriver
 
 
 
