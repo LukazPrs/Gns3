@@ -1240,7 +1240,10 @@ ACESSAR LINK: https://10.0.0.11/dashboard
 
 
 -------------------------------------------------------------------------------------------------------------------------
-
+-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -1283,6 +1286,26 @@ url = http://controller:9696
 ----
 descomentei linha em nova.conf(compute e controller):
 compute_driver=libvirt.LibvirtDriver
+
+
+----
+----
+---
+
+[ERROR neutron.pecan_wsgi.hooks.translation \[req-f301a2d8-6fc4-4535-ad10-f2138384d9a0 5440814de56741a3b81e4088d989de45 933ff23e25904b37aa51c8c007e6fd7d - default default\] POST failed.: neutron_lib.exceptions.NoNetworkAvailable: Unable to create the network. No tenant network is available for allocation.](https://www.youtube.com/watch?v=ADmPPdrBwnw)
+
+
+[ml2]
+...
+tenant_network_types = vxlan
+...
+
+[ml2_type_vxlan]
+vni_ranges = 1:1000
+
+
+
+
 
 
 
