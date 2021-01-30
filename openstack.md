@@ -1119,16 +1119,23 @@ modulo openstack-nova-compute nao operando
     
 --
 
-openstack network create --project $projectID \ 
--- --share --provider-network-type flat --provider-physical-network physnet1 sharednet1
+    openstack network create --project $projectID --share --provider-network-type flat --provider-physical-network physnet1 sharednet1
 
 --
 #### criar rede openstack
-openstack subnet create subnet1 --network sharednet1 \
- -- --project $projectID --subnet-range 10.0.0.0/24 \
--- --allocation-pool start=10.0.0.200,end=10.0.0.254 \
- -- --gateway 10.0.0.1 --dns-nameserver 10.0.0.10
 
+    openstack subnet create subnet1 --network sharednet1 \
+    --project $projectID --subnet-range 10.0.0.0/24 \
+    --allocation-pool start=10.0.0.200,end=10.0.0.254 \
+    --gateway 10.0.0.1 --dns-nameserver 10.0.0.10
+    
+    ~~~~
+
+    openstack subnet create subnet1 --network sharednet1 --project $projectID --subnet-range 10.0.0.0/24 --allocation-pool start=10.0.0.200,end=10.0.0.254 --gateway 10.0.0.1 --dns-nameserver 10.0.0.10
+
+--
+    
+    
     openstack network list
     openstack subnet list
 
