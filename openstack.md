@@ -1247,6 +1247,265 @@ ACESSAR LINK: https://10.0.0.11/dashboard
 
 
 -------------------------------------------------------------------------------------------------------------------------
+
+
+# CINDER
+
+### OpenStack Ussuri : Configure Cinder (Control Node)
+
+#### create [cinder] user in [service] project
+
+    openstack user create --domain default --project service --password servicepassword cinder
+#### add [cinder] user in [admin] role
+    openstack role add --project service --user cinder admin
+#### create service entry for [cinder]
+    openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
+#### create endpoint for [cinder] (public,internal,admin)
+
+    openstack endpoint create --region RegionOne volumev3 public http://controller:8776/v3/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne volumev3 internal http://controller:8776/v3/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne volumev3 admin http://controller:8776/v3/%\(tenant_id\)s
+
+### criar database: 
+**mysql -u root -p**
+
+    create database cinder;
+    grant all privileges on cinder.* to cinder@'localhost' identified by 'cinderPass';
+    grant all privileges on cinder.* to cinder@'%' identified by 'cinderPass';
+    flush privileges;
+    exit
+
+### Instalar pacotes cinder
+
+    dnf --enablerepo=centos-openstack-ussuri,PowerTools,epel -y install openstack-cinder
+
+#### configure cinder.conf
+
+    mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.org
+    
+    nano /etc/cinder/cinder.conf
+--
+
+    [DEFAULT]
+    # define own IP address
+    my_ip = 10.0.0.11
+    log_dir = /var/log/cinder
+    state_path = /var/lib/cinder
+    auth_strategy = keystone
+    
+    # RabbitMQ connection info
+    transport_url = rabbit://openstack:rabbitPass@controller
+    enable_v3_api = True
+    
+    [database]
+    connection = mysql+pymysql://cinder:cinderPass@controller/cinder
+    
+    [keystone_authtoken]
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = cinder
+    password = cinderPass
+    
+    [oslo_concurrency]
+    lock_path = $state_path/tmp
+
+### dar permissões e atualizar/popular database cinder
+
+    chmod 640 /etc/cinder/cinder.conf
+    chgrp cinder /etc/cinder/cinder.conf
+    su -s /bin/bash cinder -c "cinder-manage db sync"
+    
+    systemctl enable --now openstack-cinder-api openstack-cinder-scheduler
+
+### adicionar variavel de volume no arquivo de autenticação
+    echo "export OS_VOLUME_API_VERSION=3" >> ~/admin-openrc
+    echo "export OS_VOLUME_API_VERSION=3" >> ~/demo-openrc
+    source admin-openrc
+
+#### verificar status do cinder(state UP)
+
+    openstack volume service list
+
+#### liberar permissao no firewall
+
+    firewall-cmd --add-port=8776/tcp --permanent
+    firewall-cmd --reload
+
+#### instalar selinux
+
+    dnf --enablerepo=centos-openstack-ussuri -y install openstack-selinux
+--
+### Configure Cinder (Storage Node)
+
+#### instale os pacotes do cinder
+    dnf --enablerepo=centos-openstack-ussuri,PowerTools,epel -y install openstack-cinder targetcli
+
+#### configurar cinder.conf
+mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.org
+nano /etc/cinder/cinder.conf
+
+--
+
+    [DEFAULT]
+    # define own IP address
+    my_ip = 10.0.0.41
+    log_dir = /var/log/cinder
+    state_path = /var/lib/cinder
+    auth_strategy = keystone
+    
+    # RabbitMQ connection info
+    transport_url = rabbit://openstack:rabbitPass@controller
+    
+    # Glance connection info
+    glance_api_servers = http://10.0.0.11:9292
+    enable_v3_api = True
+    
+    # MariaDB connection info
+    [database]
+    connection = mysql+pymysql://cinder:cinderPass@controller/cinder
+    
+    # Keystone auth info
+    [keystone_authtoken]
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = cinder
+    password = cinderPass
+    
+    [oslo_concurrency]
+    lock_path = $state_path/tmp
+
+#### dar permissões para cinder.conf
+
+    chmod 640 /etc/cinder/cinder.conf
+    chgrp cinder /etc/cinder/cinder.conf
+    
+    systemctl enable --now openstack-cinder-volume
+
+#### 	If SELinux is enabled, change policy[crie o arq abaixo].
+
+> nano iscsiadm.te
+
+    module iscsiadm 1.0;
+    
+    require {
+            type iscsid_t;
+            class capability dac_override;
+    }
+    
+    #============= iscsid_t ==============
+    allow iscsid_t self:capability dac_override;
+--
+
+    checkmodule -m -M -o iscsiadm.mod iscsiadm.te
+    semodule_package --outfile iscsiadm.pp --module iscsiadm.mod
+    semodule -i iscsiadm.pp
+---
+### Use Cinder Storage (LVM)
+#### 	Create a volume group for Cinder on Storage Node.
+
+    pvcreate /dev/sdb
+    vgcreate -s 32M vg_volume01 /dev/sdb
+
+#### Configure Cinder Volume on Storage Node.
+
+> vi /etc/cinder/cinder.conf
+
+    # add follows into [DEFAULT] section
+    enabled_backends = lvm
+    
+    # add follows to the end
+    [lvm]
+    target_helper = lioadm
+    target_protocol = iscsi
+    # IP address of Storage Node
+    target_ip_address = 10.0.0.50
+    # volume group name just created
+    volume_group = vg_volume01
+    volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+    volumes_dir = $state_path/volumes
+--
+
+    systemctl restart openstack-cinder-volume
+
+#### 	On Storage Node, If Firewalld is running, allow service ports.
+
+    firewall-cmd --add-service=iscsi-target --permanent
+    firewall-cmd --reload
+
+## Configure Nova on Compute Node to use cinder. 
+
+> vi /etc/nova/nova.conf
+
+    # add to the end
+    [cinder]
+    os_region_name = RegionOne
+--
+
+    systemctl restart openstack-nova-compute
+
+#### if SELinux enabled, change policy like follows
+
+> nano iscsiadm.te
+
+    # create new
+    module iscsiadm 1.0;
+    
+    require {
+            type iscsid_t;
+            class capability dac_override;
+    }
+    
+    #============= iscsid_t ==============
+    allow iscsid_t self:capability dac_override;
+--
+
+    checkmodule -m -M -o iscsiadm.mod iscsiadm.te
+    semodule_package --outfile iscsiadm.pp --module iscsiadm.mod
+    semodule -i iscsiadm.pp
+
+### create a virtual disk [disk01] with 10GB on CONTROLLER
+
+    openstack volume create --size 10 disk01
+    openstack volume list
+
+--
+**adicione o volume a uma instancia**
+
+    openstack server add volume CentOS_8 disk01
+
+
+
+---
+---
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------
@@ -1312,7 +1571,10 @@ vni_ranges = 1:1000
 
 
 
+----------------------------
+error cinder
+Failed to run task cinder.scheduler.flows.create_volume.ScheduleCreateVolumeTask;volume:create: No valid host was found. No weighed hosts available
 
-
+r:https://ask.openstack.org/en/question/96614/no-valid-host-was-found-cinder-volume-create/
 
 
