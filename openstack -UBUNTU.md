@@ -567,4 +567,268 @@ Verifique as redes e subnets criadas.
     openstack network list
     openstack subnet list
 
+##
+##
+## Criando projetos e usuarios.
+Criando projeto:
+
+    openstack project create --domain default --description "Meu Projeto" MeuProjeto
+
+Criando usuário:
+
+    openstack user create --domain default --project MeuProjeto --password MinhaSenha MeuUsuario
+
+Criando role:
+
+    openstack role create MinhaRole
+
+Adicionando um usuário a role:
+
+    openstack role add --project MeuProjeto --user MeuUsuario MinhaSenha MinhaRole
+
+Criando flavors:
+
+    openstack flavor create --id 0 --vcpus 1 --ram 128 --disk 2 m1.MeuFlavor
+
+### Criando Instâncias
+Logar com suas credenciais.
+source admin-openrc
+Listar flavor,image,network,security-groups e keypair:
+
+    openstack flavor list
+    openstack image list
+    openstack network list
+    openstack security-groups list
+    openstack keypair list
+
+Criar keypair:
+
+    ssh-keygen -q -N ""
+
+Adicionar public-key:
+
+    openstack keypair create --public-key ~/.ssh/id_rsa.pub MinhaChave
+
+Criando instância:
+
+    openstack server create --flavor m1.MeuFlavor --image cirros --security-group default --nic net-id=$netID --key-name MinhaChave Minha-Instancia
+
+Listar instâncias:
+
+    openstack server list
+
+
+Configurar security-group para permitir acesso SSH e PING na instância.
+
+    openstack security group rule create --protocol icmp --ingress default
+    openstack security group rule create --protocol tcp --dst-port 22:22 secgroup01
+
+Listar regras no security-group:
+
+    openstack security group rule list
+Obter link do vnc da sua instância:
+
+    openstack console url show MinhaInstancia
+
+##
+##
+## Horizon
+Instale os pacote do horizon:
+
+    apt -y install openstack-dashboard
+
+Edite o arquivo: vi /etc/openstack-dashboard/local_settings.py
+
+    #linha 99: mude memcache server
+     'LOCATION': 'controller:11211',
+    #linha 133: adicione
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    #linha 126&127: 
+    OPENSTACK_HOST = "controller"
+    OPENSTACK_KEYSTONE_URL = "http://controller:5000/v3"
+    #linha 131: mude timezone
+    TIME_ZONE = "America/Cuiaba"
+    #adicione no final do arquivo:
+    OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+    OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = 'Default'
+
+Reinicie apache:
+
+    systemctl restart apache2
+--
+Permitir que usuários comuns acessem os detalhes das instancias [OPCIONAL].
+Crie e adicione: vi /etc/nova/policy.json
+
+    {
+      "os_compute_api:os-extended-server-attributes": "rule:admin_or_owner",
+    }
+Dar as permissões ao arquivo criado:
+
+    chgrp nova /etc/nova/policy.json
+    chmod 640 /etc/nova/policy.json
+    
+    systemctl restart nova-api
+Acessar o horizon pelo navegador:
+
+    http://10.0.0.11/horizon
+    http://controller/horizon *
+
+## Compute em um 2° host
+Configurar o novo host com duas interfaces de rede de acordo com a maquina controller.
+
+Instalando pacotes compute no segundo nó:
+apt -y install nova-compute nova-compute-kvm qemu-system-data
+Edite:
+
+> mv /etc/nova/nova.conf /etc/nova/nova.conf.org vi /etc/nova/nova.conf
+
+Adicione no arquivo:
+
+    [DEFAULT]
+    my_ip = 10.0.0.41
+    state_path = /var/lib/nova
+    enabled_apis = osapi_compute,metadata
+    log_dir = /var/log/nova
+    
+    transport_url = rabbit://openstack:rabbitPass@controller
+    
+    [api]
+    auth_strategy = keystone
+    
+    [vnc]
+    enabled = True
+    server_listen = 0.0.0.0
+    server_proxyclient_address = $my_ip
+    novncproxy_base_url = http://10.0.0.11:6080/vnc_auto.html
+    
+    [glance]
+    api_servers = http://controller:9292
+    
+    [oslo_concurrency]
+    lock_path = $state_path/tmp
+    
+    [keystone_authtoken]
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = nova
+    password = novaPass
+    
+    [placement]
+    auth_url = http://controller:5000
+    os_region_name = RegionOne
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = placement
+    password = placementPass
+    
+    [wsgi]
+    api_paste_config = /etc/nova/api-paste.ini
+Dê as permissões ao arquivo:
+
+    chmod 640 /etc/nova/nova.conf
+    chgrp nova /etc/nova/nova.conf
+    
+    systemctl restart nova-compute
+### Execute no CONTROLLER
+Procurar novos nós compute:
+
+    su -s /bin/bash nova -c "nova-manage cell_v2 discover_hosts"
+
+Verifique os nós compute:
+
+    openstack compute service list
+
+## Configure Neutron no Compute Node
+Instale os pacote neutron:
+apt -y install neutron-common neutron-plugin-ml2 neutron-linuxbridge-agent
+Edite:
+
+> mv /etc/neutron/neutron.conf /etc/neutron/neutron.conf.org vi
+> /etc/neutron/neutron.conf
+
+Adicione no arquivo:
+
+    [DEFAULT]
+    core_plugin = ml2
+    service_plugins = router
+    auth_strategy = keystone
+    state_path = /var/lib/neutron
+    allow_overlapping_ips = True
+
+    transport_url = rabbit://openstack:rabbitPass@controller
+    
+    [agent]
+    root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+    
+    [keystone_authtoken]
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = neutron
+    password = neutronUserPass
+    
+    [oslo_concurrency]
+    lock_path = $state_path/lock
+Dar as permissões ao arquivo:
+
+    chmod 640 /etc/neutron/neutron.conf
+    chgrp neutron /etc/neutron/neutron.conf
+
+Edite: vi /etc/neutron/plugins/ml2/ml2_conf.ini
+
+    #linha 154: adicione
+    [ml2]
+    type_drivers = flat,vlan,vxlan  
+    tenant_network_types =  
+    mechanism_drivers = linuxbridge  
+    extension_drivers = port_securit
+Edite: vi /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+
+    #linha 225:
+    [securitygroup]  
+    enable_security_group = True  
+    firewall_driver = iptables  
+    enable_ipset = True
+    #linha 284:
+    local_ip = 10.0.0.41
+
+Edite: vi /etc/nova/nova.conf
+
+    #adicione em [DEFAULT]
+    use_neutron = True  
+    linuxnet_interface_driver = nova.network.linux_net.LinuxBridgeInterfaceDriver  
+    firewall_driver = nova.virt.firewall.NoopFirewallDriver  
+    vif_plugging_is_fatal = True  
+    vif_plugging_timeout = 300
+    
+    #adicione no final:
+    [neutron]  
+    auth_url = http://controlaler:5000  
+    auth_type = password  
+    project_domain_name = default  
+    user_domain_name = default  
+    region_name = RegionOne  
+    project_name = service  
+    username = neutron  
+    password = neutronUserPass
+    service_metadata_proxy = True  
+    metadata_proxy_shared_secret = neutronMetaPass
+Execute:
+
+    ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+    
+    systemctl restart nova-compute neutron-linuxbridge-agent
+    systemctl enable neutron-linuxbridge-agent
+
 
