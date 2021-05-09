@@ -801,7 +801,7 @@ Edite: vi /etc/neutron/plugins/ml2/linuxbridge_agent.ini
     firewall_driver = iptables  
     enable_ipset = True
     #linha 284:
-    local_ip = 10.0.0.41
+    local_ip = 10.0.0.31
 
 Edite: vi /etc/nova/nova.conf
 
@@ -814,7 +814,7 @@ Edite: vi /etc/nova/nova.conf
     
     #adicione no final:
     [neutron]  
-    auth_url = http://controlaler:5000  
+    auth_url = http://controller:5000  
     auth_type = password  
     project_domain_name = default  
     user_domain_name = default  
