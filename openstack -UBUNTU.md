@@ -584,7 +584,7 @@ Criando role:
 
 Adicionando um usuário a role:
 
-    openstack role add --project MeuProjeto --user MeuUsuario MinhaSenha MinhaRole
+    openstack role add --project MeuProjeto --user MeuUsuario MinhaRole
 
 Criando flavors:
 
