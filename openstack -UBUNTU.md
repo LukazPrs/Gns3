@@ -685,7 +685,7 @@ Edite:
 Adicione no arquivo:
 
     [DEFAULT]
-    my_ip = 10.0.0.41
+    my_ip = 10.0.0.31
     state_path = /var/lib/nova
     enabled_apis = osapi_compute,metadata
     log_dir = /var/log/nova
