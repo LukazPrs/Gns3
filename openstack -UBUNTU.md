@@ -506,7 +506,7 @@ Edite nova.conf novamente e adicione:
     metadata_proxy_shared_secret = neutronMetaPass
 Inicie os serviços neutron:
 
-    ls -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+    ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
     su -s /bin/bash neutron -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugin.ini upgrade head"
     
     for service in server l3-agent dhcp-agent metadata-agent linuxbridge-agent; do  
