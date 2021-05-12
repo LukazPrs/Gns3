@@ -74,7 +74,7 @@ Configure keystone, edite: vi /etc/keystone/keystone.conf
     memcache_servers = controller:11211
     #linha 594: mude para conexão mysql-mariadb
     connection = mysql+pymysql://keystone:keystoneDBPass@controller/keystone
-    #linha 2408: descomente
+    #linha 2508: descomente
     provider = fernet
 popular banco keystone e defina fernet key.
 
