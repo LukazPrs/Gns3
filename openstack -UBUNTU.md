@@ -845,7 +845,7 @@ Criar os endpoints:
 
     openstack endpoint create --region RegionOne volumev3 public http://controller:8776/v3/%\(tenant_id\)s
     openstack endpoint create --region RegionOne volumev3 internal http://controller:8776/v3/%\(tenant_id\)s
-    openstack endpoint create --region RegionOne volumev3 admin http://$controller:8776/v3/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne volumev3 admin http://controller:8776/v3/%\(tenant_id\)s
 
 Criar database para o serviço cinder:
 
