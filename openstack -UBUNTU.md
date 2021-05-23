@@ -998,5 +998,7 @@ Edite em nova.conf:
 Crie um volume:
 
     openstack volume create --size 10 disk01
+    ***systemctl start iscsid***
+    
 
 
