@@ -831,4 +831,171 @@ Execute:
     systemctl restart nova-compute neutron-linuxbridge-agent
     systemctl enable neutron-linuxbridge-agent
 
+---
+---
+# CINDER
+
+### CONTROLLER
+
+    openstack user create --domain default --project service --password cinderPass cinder
+    openstack role add --project service --user cinder admin
+    openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
+
+Criar os endpoints:
+
+    openstack endpoint create --region RegionOne volumev3 public http://controller:8776/v3/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne volumev3 internal http://controller:8776/v3/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne volumev3 admin http://$controller:8776/v3/%\(tenant_id\)s
+
+Criar database para o serviço cinder:
+
+    mysql
+    create database cinder;
+    grant all privileges on cinder.* to cinder@'localhost' identified by 'cinderDBPass';
+    grant all privileges on cinder.* to cinder@'%' identified by 'cinderDBPass';
+    flush privileges;
+    exit
+
+instalar pacotes do cinder:
+
+    apt -y install cinder-api cinder-scheduler python3-cinderclient
+
+Renomeie o arquivo e crie:
+
+> mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.org vi
+> /etc/cinder/cinder.conf
+
+    [DEFAULT]
+    my_ip = 10.0.0.11
+    rootwrap_config = /etc/cinder/rootwrap.conf
+    api_paste_confg = /etc/cinder/api-paste.ini
+    state_path = /var/lib/cinder
+    auth_strategy = keystone
+    
+    transport_url = rabbit://openstack:rabbitPass@controller
+    enable_v3_api = True
+    
+    [database]
+    connection = mysql+pymysql://cinder:cinderDBPass@controller/cinder
+    
+    [keystone_authtoken]
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = cinder
+    password = cinderPass
+    
+    [oslo_concurrency]
+    lock_path = $state_path/tmp
+
+--
+Dar as permissões:
+
+    chmod 640 /etc/cinder/cinder.conf
+    chgrp cinder /etc/cinder/cinder.conf
+--
+
+    su -s /bin/bash cinder -c "cinder-manage db sync"
+    systemctl restart cinder-scheduler
+    openstack volume service list
+
+### STORAGE
+Instale os pacotes cinder:
+
+    apt -y install cinder-volume python3-mysqldb python3-rtslib-fb
+
+renomeie e crie:
+
+> mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.org 
+> vi /etc/cinder/cinder.conf
+
+adicione:
+
+    DEFAULT]
+    my_ip = 10.0.0.41
+    rootwrap_config = /etc/cinder/rootwrap.conf
+    api_paste_confg = /etc/cinder/api-paste.ini
+    state_path = /var/lib/cinder
+    auth_strategy = keystone
+    
+    transport_url = rabbit://openstack:rabbitPass@controller
+    enable_v3_api = True
+    
+    glance_api_servers = http://controller:9292
+    
+    enabled_backends =
+    
+    [database]
+    connection = mysql+pymysql://cinder:cinderDBPass@controller/cinder
+    
+    [keystone_authtoken]
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = cinder
+    password = cinderPass
+    
+    [oslo_concurrency]
+    lock_path = $state_path/tmp
+
+
+--
+Dar as permissões:
+
+    chmod 640 /etc/cinder/cinder.conf
+    chgrp cinder /etc/cinder/cinder.conf
+
+    systemctl restart cinder-volume
+
+#### VOLUME LVM (STORAGE NODE)
+pvcreate /dev/sdb1
+vgcreate -s 32M vg_volume01 /dev/sdb1
+
+Instale:
+apt -y install tgt thin-provisioning-tools
+
+edite o arquivo cinder.conf: 
+
+> vi /etc/cinder/cinder.conf
+
+    #adicione na linha:
+    enabled_backends = lvm
+    #adicione no final:
+    [lvm]
+    target_helper = tgtadm
+    target_protocol = iscsi
+    target_ip_address = 10.0.0.41
+    volume_group = vg_volume01
+    volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+    volumes_dir = $state_path/volumes
+
+reinicie o cinder:
+
+    systemctl restart cinder-volume tgt
+
+#### ADICIONE NO COMPUTE
+Edite em nova.conf: 
+
+> vi /etc/nova/nova.conf
+
+#adicione no final
+
+    [cinder]  
+    os_region_name = RegionOne
+--
+
+    systemctl restart nova-compute
+
+Crie um volume:
+
+    openstack volume create --size 10 disk01
+
 
