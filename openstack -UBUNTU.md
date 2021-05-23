@@ -863,6 +863,7 @@ instalar pacotes do cinder:
 Renomeie o arquivo e crie:
 
 > mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.org vi
+> 
 > /etc/cinder/cinder.conf
 
     [DEFAULT]
