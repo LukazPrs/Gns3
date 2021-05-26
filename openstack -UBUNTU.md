@@ -1001,4 +1001,366 @@ Crie um volume:
     ***systemctl start iscsid***
     
 
+# SWIFT
+### CONTROLLER
+Crie o usuario swift e adicione a role admin:
+
+    openstack user create --domain default --project service --password swiftPass swift
+    openstack role add --project service --user swift admin
+    openstack service create --name swift --description "OpenStack Object Storage" object-store
+
+Crie os endpoints:
+
+    export swift_proxy=10.0.0.51
+    openstack endpoint create --region RegionOne object-store public http://$swift_proxy:8080/v1/AUTH_%\(tenant_id\)s
+    openstack endpoint create --region RegionOne object-store internal http://$swift_proxy:8080/v1/AUTH_%\(tenant_id\)s
+    openstack endpoint create --region RegionOne object-store admin http://$swift_proxy:8080/v1
+
+### PROXY NODE
+Instale os pacotes do swift:
+apt -y install swift swift-proxy python3-swiftclient python3-keystonemiddleware python3-memcache
+
+Crie o arquivo proxy-server.conf:
+
+> vi /etc/swift/proxy-server.conf
+
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = 8080
+    user = swift
+    
+    [pipeline:main]
+    pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk ratelimit authtoken keystoneauth container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server
+    
+    [app:proxy-server]
+    use = egg:swift#proxy
+    allow_account_management = true
+    account_autocreate = true
+    
+    # Keystone auth info
+    [filter:authtoken]
+    paste.filter_factory = keystonemiddleware.auth_token:filter_factory
+    www_authenticate_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = swift
+    password = swiftPass
+    delay_auth_decision = true
+    
+    [filter:keystoneauth]
+    use = egg:swift#keystoneauth
+    operator_roles = admin,SwiftOperator
+    
+    [filter:healthcheck]
+    use = egg:swift#healthcheck
+    
+    [filter:cache]
+    use = egg:swift#memcache
+    memcache_servers = controller:11211
+    
+    [filter:ratelimit]
+    use = egg:swift#ratelimit
+    
+    [filter:domain_remap]
+    use = egg:swift#domain_remap
+    
+    [filter:catch_errors]
+    use = egg:swift#catch_errors
+    
+    [filter:cname_lookup]
+    use = egg:swift#cname_lookup
+    
+    [filter:staticweb]
+    use = egg:swift#staticweb
+    
+    [filter:tempurl]
+    use = egg:swift#tempurl
+    
+    [filter:formpost]
+    use = egg:swift#formpost
+    
+    [filter:name_check]
+    use = egg:swift#name_check
+    
+    [filter:list-endpoints]
+    use = egg:swift#list_endpoints
+    
+    [filter:proxy-logging]
+    use = egg:swift#proxy_logging
+    
+    [filter:bulk]
+    use = egg:swift#bulk
+    
+    [filter:slo]
+    use = egg:swift#slo
+    
+    [filter:dlo]
+    use = egg:swift#dlo
+    
+    [filter:container-quotas]
+    use = egg:swift#container_quotas
+    
+    [filter:account-quotas]
+    use = egg:swift#account_quotas
+    
+    [filter:gatekeeper]
+    use = egg:swift#gatekeeper
+    
+    [filter:container_sync]
+    use = egg:swift#container_sync
+    
+    [filter:xprofile]
+    use = egg:swift#xprofile
+    
+    [filter:versioned_writes]
+    use = egg:swift#versioned_writes
+
+Crie o arquivo swift.conf:
+
+> vi /etc/swift/swift.conf
+
+    [swift-hash]  
+    swift_hash_path_suffix = swift_shared_path  
+    swift_hash_path_prefix = swift_shared_path
+
+Dê as permissões:
+
+    chown -R swift. /etc/swift
+
+Crie os arquivos de swift rings:
+
+    swift-ring-builder /etc/swift/account.builder create 12 3 1
+    swift-ring-builder /etc/swift/container.builder create 12 3 1
+    swift-ring-builder /etc/swift/object.builder create 12 3 1
+    
+    swift-ring-builder /etc/swift/account.builder add r0z0-10.0.0.41:6002/device 100
+    swift-ring-builder /etc/swift/container.builder add r0z0-10.0.0.41:6001/device 100
+    swift-ring-builder /etc/swift/object.builder add r0z0-10.0.0.41:6000/device 100
+    
+    swift-ring-builder /etc/swift/account.builder add r1z1-10.0.0.42:6002/device 100
+    swift-ring-builder /etc/swift/container.builder add r1z1-10.0.0.42:6001/device 100
+    swift-ring-builder /etc/swift/object.builder add r1z1-10.0.0.42:6000/device 100
+    
+    swift-ring-builder /etc/swift/account.builder add r2z2-10.0.0.43:6002/device 100
+    swift-ring-builder /etc/swift/container.builder add r2z2-10.0.0.43:6001/device 100
+    swift-ring-builder /etc/swift/object.builder add r2z2-10.0.0.43:6000/device 100
+    
+    swift-ring-builder /etc/swift/account.builder rebalance
+    swift-ring-builder /etc/swift/container.builder rebalance
+    swift-ring-builder /etc/swift/object.builder rebalance
+
+De as permissões:
+
+    chown swift. /etc/swift/*.gz 
+    systemctl restart swift-proxy
+
+### STORAGE (REALIZAR EM TODOS STORAGE NODES)
+Instale os arquivos do swift:
+
+    apt y install swift swift-account swift-container swift-object xfsprogs
+
+Formate o disco a ser usado com xfs e monte o diretório na pasta criada:
+
+    mkfs.xfs -i size=1024 -s size=4096 /dev/sdb
+    mkdir -p /srv/node/device
+    mount -o noatime,nodiratime /dev/sdb /srv/node/device 
+    chown -R swift. /srv/node
+
+Edite o arquivo fstab para montar o disco ao iniciar o sistema:
+
+> vi /etc/fstab
+
+    /dev/sdb               /srv/node/device       xfs     noatime,nodiratime 0 0
+
+### PROXY NODE
+Copie os arquivos criados .gz para os storages nodes:
+
+    scp /etc/swift/*.gz 10.0.0.41:/etc/swift/
+
+###  STORAGE (REALIZAR EM TODOS STORAGE NODES)
+Dê as permissoes para os arquivos:
+
+    chown swift. /etc/swift/*.gz
+
+Crie o arquivos swift.conf com o mesmo nome(swift-hash) criado no proxy node:
+
+> vi /etc/swift/swift.conf
+
+    [swift-hash]  
+    swift_hash_path_suffix = swift_shared_path  
+    swift_hash_path_prefix = swift_shared_path
+
+Confirme as configurações nos arquivos:
+
+> vi /etc/swift/account-server.conf
+
+    bind_ip = 0.0.0.0  
+    bind_port = 6002
+
+> vi /etc/swift/container-server.conf
+
+    bind_ip = 0.0.0.0  
+    bind_port = 6001
+
+> vi /etc/swift/object-server.conf
+
+    bind_ip = 0.0.0.0  
+    bind_port = 6000
+
+Crie o arquivo de sincronização entre os storage nodes:
+vi /etc/rsyncd.conf
+
+    pid file = /var/run/rsyncd.pid
+    log file = /var/log/rsyncd.log
+    uid = swift
+    gid = swift
+    # IP de cada storage node
+    address = 10.0.0.41
+    
+    [account]
+    path            = /srv/node
+    read only       = false
+    write only      = no
+    list            = yes
+    incoming chmod  = 0644
+    outgoing chmod  = 0644
+    max connections = 25
+    lock file =     /var/lock/account.lock
+    
+    [container]
+    path            = /srv/node
+    read only       = false
+    write only      = no
+    list            = yes
+    incoming chmod  = 0644
+    outgoing chmod  = 0644
+    max connections = 25
+    lock file =     /var/lock/container.lock
+    
+    [object]
+    path            = /srv/node
+    read only       = false
+    write only      = no
+    list            = yes
+    incoming chmod  = 0644
+    outgoing chmod  = 0644
+    max connections = 25
+    lock file =     /var/lock/object.lock
+    
+    [swift_server]
+    path            = /etc/swift
+    read only       = true
+    write only      = no
+    list            = yes
+    incoming chmod  = 0644
+    outgoing chmod  = 0644
+    max connections = 5
+    lock file =     /var/lock/swift_server.lock
+
+Ative a sincronização:
+
+> vi /etc/default/rsync
+
+    RSYNC_ENABLE=true
+
+Inicie e habilite os serviços do swift:
+
+    systemctl restart rsync swift-account-auditor \  
+    swift-account-replicator \  
+    swift-account \  
+    swift-container-auditor \  
+    swift-container-replicator \  
+    swift-container-updater \  
+    swift-container \  
+    swift-object-auditor \  
+    swift-object-replicator \  
+    swift-object-updater \  
+    swift-object
+    
+    systemctl enable rsync swift-account-auditor \  
+    swift-account-replicator \  
+    swift-account \  
+    swift-container-auditor \  
+    swift-container-replicator \  
+    swift-container-updater \  
+    swift-container \  
+    swift-object-auditor \  
+    swift-object-replicator \  
+    swift-object-updater \  
+    swift-object
+
+### CONTROLLER
+Crie o projeto swiftservice:
+
+    openstack project create --domain default --description "Swift Service Project" swiftservice
+
+Crie a role SwiftOperator:
+
+    openstack role create SwiftOperator
+
+Crie o usuario:
+
+    openstack user create --domain default --project swiftservice --password minha-senha meu-usuario
+
+Adicione o usuario criado a role swiftOperator:
+
+    openstack role add --project swiftservice --user meu-usuario SwiftOperator
+
+---
+### MÁQUINA CLIENTE
+Instale os arquivos client do keystone e swift:
+
+    apt -y install python3-openstackclient python3-keystoneclient python3-swiftclient
+Crie o arquivo de variaveis:
+
+> vi ~/keystonerc_swift
+
+    export OS_PROJECT_DOMAIN_NAME=default  
+    export OS_USER_DOMAIN_NAME=default  
+    export OS_PROJECT_NAME=swiftservice  
+    export OS_USERNAME=meu-usuario  
+    export OS_PASSWORD=minha-senha  
+    export OS_AUTH_URL=http://10.0.0.11:5000/v3  
+    export OS_IDENTITY_API_VERSION=3  
+    export PS1='\u@\h \W(swift)\$ '
+
+De a permissão ao arquivo e carregue as variaveis do arquivo:
+
+    chmod 600 ~/keystonerc_swift
+    source ~/keystonerc_swift
+Verifique o status do swift:
+
+    swift stat
+Crie um container:
+
+    openstack container create test-container
+
+Liste os container criados:
+
+    openstack container list
+
+Faça upload de um arquivo para seu container:
+
+    openstack object create test-container testfile.txt
+
+Liste os objetos do seu container:
+
+    openstack object list test-container
+
+Faça download do arquivo no container:
+
+    openstack object save test-container testfile.txt
+
+Apague o arquivo no container:
+
+    openstack object delete test-container testfile.txt
+
+Delete o container:
+
+    openstack container delete test-container
+
 
