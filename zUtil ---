@@ -70,4 +70,29 @@ EDITAR PLYMOUTH
  
  sudo dnf install elfutils-libelf-devel
  sudo /sbin/vboxconfig
+ 
+ 
+  ____________________________________________________________________________________________________
+  ___________________________________________________________________________________________________
+
+STARTING ANSIBLE
+[linha de comando ad-hoc]
+-i = inventario
+-u = usurario
+-k = pedir senha
+-K = solicita elevação de privilegio
+-b = executar a elevação de privilegio
+-v = verbose
+-m = modulo
+-a = argumento
+
+ansible all -u user -m ping  \  ansible 10.0.0.11 -u user -m ping
+
+ansible all -u user -m setup
+ansible all -u user -b -m systemd -a "name=ssh state=restarted"
+ansible all -u user -k -b -m shell -a "systemctl status ssh"
+
+
+
+
 
