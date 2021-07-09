@@ -92,7 +92,57 @@ ansible all -u user -m setup
 ansible all -u user -b -m systemd -a "name=ssh state=restarted"
 ansible all -u user -k -b -m shell -a "systemctl status ssh"
 
+---------------- HOSTS EXAMPLE ----------------
+[curso_2]
+10.0.0.35
 
+## passando confs para um host
+#mysql ansible_ssh_host=10.0.0.35
+#mysql ansible_ssh_host=10.0.0.35 ansible_ssh_user=root ansible_ssh_pass=compute ansible_become_method=sudo ansible_become_user=compute ansible_pass=compute ansib>
 
+[curso_1]
+www ansible_ssh_host=10.0.0.51
 
+## usando grupos
+[curso:children]
+curso_2
+curso_1
 
+## determinar variaveis para um grupo
+[curso_1:vars]
+ansible_ssh_port=22
+ansible_ssh_user=compute
+ansible_ssh_pass=compute
+ansible_become=yes
+ansible_become_method=sudo
+ansible_become_user=compute
+ansible_become_pass=compute
+
+-------------------------------------------------------
+
+------------ ROLES
+tasks - lista de tarefas a serem executadas em uma role
+handlers - são manipuladores/eventos acionados por uma task
+files - arquivos utilizados para deploy dentro de uma role
+templates - modelos de deploy dentro de uma role(permite variaveis)
+vars - variaveis adicionais de uma role
+defaults - variaveis padrão de uma role. prioridade ,maxima
+meta - trata dependencias de uma role por outra role(primeiro diretorio a ser analizado)
+
+OBS: dentro dos diretorios tasks, handlers, vars, defaults e meta, deverá existir um arquivo com o nome de main.yml para que o msm seja interpretado.
+
+------------------------------------------------------------------------
+diretorios host_vars group_vars(devem ser criados no dir raiz):
+# vim host_vars/www  [arquivo com mesmo nome do host dentro do inventario *hosts*]
+
+nivel de prioridade:
+1. defaults/main.yml 
+2. host_vars/www
+3. inventory (variaveis de hosts)
+4. group_vars/servidores
+5. inventory (variaveis de grupos)
+
+------------------------------------------------------------------------
+
+criar estrutura de dir para roles: dir:roles
+# ansinle-galaxy init create_user
